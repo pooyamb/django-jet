@@ -7,8 +7,7 @@ import django.utils.timezone
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
@@ -20,11 +19,7 @@ class Migration(migrations.Migration):
                 ('user', models.PositiveIntegerField(verbose_name='user')),
                 ('date_add', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date created')),
             ],
-            options={
-                'ordering': ('date_add',),
-                'verbose_name': 'bookmark',
-                'verbose_name_plural': 'bookmarks',
-            },
+            options={'ordering': ('date_add',), 'verbose_name': 'bookmark', 'verbose_name_plural': 'bookmarks'},
         ),
         migrations.CreateModel(
             name='PinnedApplication',

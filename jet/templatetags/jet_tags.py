@@ -2,9 +2,10 @@ from __future__ import unicode_literals
 import json
 import os
 from django import template
+
 try:
     from django.core.urlresolvers import reverse
-except ImportError: # Django 1.11
+except ImportError:  # Django 1.11
     from django.urls import reverse
 
 from django.forms import CheckboxInput, ModelChoiceField, Select, ModelMultipleChoiceField, SelectMultiple
@@ -14,8 +15,13 @@ from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_text
 from jet import settings, VERSION
 from jet.models import Bookmark
-from jet.utils import get_model_instance_label, get_model_queryset, get_possible_language_codes, \
-    get_admin_site, get_menu_items
+from jet.utils import (
+    get_model_instance_label,
+    get_model_queryset,
+    get_possible_language_codes,
+    get_admin_site,
+    get_menu_items,
+)
 
 try:
     from urllib.parse import parse_qsl
@@ -61,8 +67,9 @@ def jet_is_checkbox(field):
 
 @register.filter
 def jet_select2_lookups(field):
-    if hasattr(field, 'field') and \
-            (isinstance(field.field, ModelChoiceField) or isinstance(field.field, ModelMultipleChoiceField)):
+    if hasattr(field, 'field') and (
+        isinstance(field.field, ModelChoiceField) or isinstance(field.field, ModelMultipleChoiceField)
+    ):
         qs = field.field.queryset
         model = qs.model
 
@@ -75,7 +82,7 @@ def jet_select2_lookups(field):
                 'class': 'ajax',
                 'data-app-label': app_label,
                 'data-model': model_name,
-                'data-ajax--url': reverse('jet:model_lookup')
+                'data-ajax--url': reverse('jet:model_lookup'),
             }
 
             initial_value = field.value()
@@ -84,8 +91,10 @@ def jet_select2_lookups(field):
                 if initial_value:
                     initial_objects = model.objects.filter(pk__in=initial_value)
                     choices.extend(
-                        [(initial_object.pk, get_model_instance_label(initial_object))
-                            for initial_object in initial_objects]
+                        [
+                            (initial_object.pk, get_model_instance_label(initial_object))
+                            for initial_object in initial_objects
+                        ]
                     )
 
                 if isinstance(field.field.widget, RelatedFieldWidgetWrapper):
@@ -184,19 +193,14 @@ def jet_sibling_object(context, next):
     if sibling_object is None:
         return
 
-    url = reverse('%s:%s_%s_change' % (
-        admin_site.name,
-        model._meta.app_label,
-        model._meta.model_name
-    ), args=(sibling_object.pk,))
+    url = reverse(
+        '%s:%s_%s_change' % (admin_site.name, model._meta.app_label, model._meta.model_name), args=(sibling_object.pk,)
+    )
 
     if preserved_filters_plain != '':
         url += '?' + preserved_filters_plain
 
-    return {
-        'label': str(sibling_object),
-        'url': url
-    }
+    return {'label': str(sibling_object), 'url': url}
 
 
 @assignment_tag(takes_context=True)
@@ -214,12 +218,14 @@ def jet_popup_response_data(context):
     if context.get('popup_response_data'):
         return context['popup_response_data']
 
-    return json.dumps({
-        'action': context.get('action'),
-        'value': context.get('value') or context.get('pk_value'),
-        'obj': smart_text(context.get('obj')),
-        'new_value': context.get('new_value')
-    })
+    return json.dumps(
+        {
+            'action': context.get('action'),
+            'value': context.get('value') or context.get('pk_value'),
+            'obj': smart_text(context.get('obj')),
+            'new_value': context.get('new_value'),
+        }
+    )
 
 
 @assignment_tag(takes_context=True)
@@ -237,7 +243,7 @@ def jet_static_translation_urls():
     url_templates = [
         'jet/js/i18n/jquery-ui/datepicker-__LANGUAGE_CODE__.js',
         'jet/js/i18n/jquery-ui-timepicker/jquery.ui.timepicker-__LANGUAGE_CODE__.js',
-        'jet/js/i18n/select2/__LANGUAGE_CODE__.js'
+        'jet/js/i18n/select2/__LANGUAGE_CODE__.js',
     ]
 
     static_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static')

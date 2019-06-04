@@ -149,9 +149,7 @@ class DashboardModule(object):
 
     def get_context_data(self):
         context = context_to_dict(self.context)
-        context.update({
-            'module': self
-        })
+        context.update({'module': self})
         return context
 
     def render(self):
@@ -248,7 +246,7 @@ class LinkList(DashboardModule):
             'draggable': self.draggable,
             'deletable': self.deletable,
             'collapsible': self.collapsible,
-            'layout': self.layout
+            'layout': self.layout,
         }
 
     def load_settings(self, settings):
@@ -309,10 +307,7 @@ class AppList(DashboardModule):
     hide_empty = True
 
     def settings_dict(self):
-        return {
-            'models': self.models,
-            'exclude': self.exclude
-        }
+        return {'models': self.models, 'exclude': self.exclude}
 
     def load_settings(self, settings):
         self.models = settings.get('models')
@@ -325,12 +320,18 @@ class AppList(DashboardModule):
         for app in app_list:
             app_name = app.get('app_label', app.get('name', ''))
             app['models'] = filter(
-                lambda model: self.models is None or ('%s.%s' % (app_name, model['object_name'])) in self.models or ('%s.*' % app_name) in self.models,
-                app['models']
+                lambda model: self.models is None
+                or ('%s.%s' % (app_name, model['object_name'])) in self.models
+                or ('%s.*' % app_name) in self.models,
+                app['models'],
             )
             app['models'] = filter(
-                lambda model: self.exclude is None or (('%s.%s' % (app_name, model['object_name'])) not in self.exclude and ('%s.*' % app_name) not in self.exclude),
-                app['models']
+                lambda model: self.exclude is None
+                or (
+                    ('%s.%s' % (app_name, model['object_name'])) not in self.exclude
+                    and ('%s.*' % app_name) not in self.exclude
+                ),
+                app['models'],
             )
             app['models'] = list(app['models'])
 
@@ -382,10 +383,7 @@ class ModelList(DashboardModule):
     hide_empty = True
 
     def settings_dict(self):
-        return {
-            'models': self.models,
-            'exclude': self.exclude
-        }
+        return {'models': self.models, 'exclude': self.exclude}
 
     def load_settings(self, settings):
         self.models = settings.get('models')
@@ -398,12 +396,18 @@ class ModelList(DashboardModule):
         for app in app_list:
             app_name = app.get('app_label', app.get('name', ''))
             app['models'] = filter(
-                lambda model: self.models is None or ('%s.%s' % (app_name, model['object_name'])) in self.models or ('%s.*' % app_name) in self.models,
-                app['models']
+                lambda model: self.models is None
+                or ('%s.%s' % (app_name, model['object_name'])) in self.models
+                or ('%s.*' % app_name) in self.models,
+                app['models'],
             )
             app['models'] = filter(
-                lambda model: self.exclude is None or (('%s.%s' % (app_name, model['object_name'])) not in self.exclude and ('%s.*' % app_name) not in self.exclude),
-                app['models']
+                lambda model: self.exclude is None
+                or (
+                    ('%s.%s' % (app_name, model['object_name'])) not in self.exclude
+                    and ('%s.*' % app_name) not in self.exclude
+                ),
+                app['models'],
             )
             app['models'] = list(app['models'])
 
@@ -470,7 +474,7 @@ class RecentActions(DashboardModule):
             'limit': self.limit,
             'include_list': self.include_list,
             'exclude_list': self.exclude_list,
-            'user': self.user
+            'user': self.user,
         }
 
     def load_settings(self, settings):
@@ -487,14 +491,9 @@ class RecentActions(DashboardModule):
                     app_label, model = contenttype.split('.')
 
                     if model == '*':
-                        current_qset = Q(
-                            content_type__app_label=app_label
-                        )
+                        current_qset = Q(content_type__app_label=app_label)
                     else:
-                        current_qset = Q(
-                            content_type__app_label=app_label,
-                            content_type__model=model
-                        )
+                        current_qset = Q(content_type__app_label=app_label, content_type__model=model)
                 except:
                     raise ValueError('Invalid contenttype: "%s"' % contenttype)
 
@@ -507,16 +506,14 @@ class RecentActions(DashboardModule):
         qs = LogEntry.objects
 
         if self.user:
-            qs = qs.filter(
-                user__pk=int(self.user)
-            )
+            qs = qs.filter(user__pk=int(self.user))
 
         if self.include_list:
             qs = qs.filter(get_qset(self.include_list))
         if self.exclude_list:
             qs = qs.exclude(get_qset(self.exclude_list))
 
-        self.children = qs.select_related('content_type', 'user')[:int(self.limit)]
+        self.children = qs.select_related('content_type', 'user')[: int(self.limit)]
 
 
 class FeedSettingsForm(forms.Form):
@@ -568,10 +565,7 @@ class Feed(DashboardModule):
         super(Feed, self).__init__(title, **kwargs)
 
     def settings_dict(self):
-        return {
-            'feed_url': self.feed_url,
-            'limit': self.limit
-        }
+        return {'feed_url': self.feed_url, 'limit': self.limit}
 
     def load_settings(self, settings):
         self.feed_url = settings.get('feed_url')
@@ -585,7 +579,7 @@ class Feed(DashboardModule):
                 feed = feedparser.parse(self.feed_url)
 
                 if self.limit is not None:
-                    entries = feed['entries'][:self.limit]
+                    entries = feed['entries'][: self.limit]
                 else:
                     entries = feed['entries']
 
@@ -597,13 +591,6 @@ class Feed(DashboardModule):
 
                     self.children.append(entry)
             except ImportError:
-                self.children.append({
-                    'title': _('You must install the FeedParser python module'),
-                    'warning': True,
-                })
+                self.children.append({'title': _('You must install the FeedParser python module'), 'warning': True})
         else:
-            self.children.append({
-                'title': _('You must provide a valid feed URL'),
-                'warning': True,
-            })
-
+            self.children.append({'title': _('You must provide a valid feed URL'), 'warning': True})

@@ -34,10 +34,7 @@ class UtilsTestCase(TestCase):
         class Request:
             user = User()
 
-        app_list = get_app_list({
-            'request': Request(),
-            'user': None
-        })
+        app_list = get_app_list({'request': Request(), 'user': None})
 
         self.assertIsInstance(app_list, list)
 
@@ -67,4 +64,3 @@ class UtilsTestCase(TestCase):
     def test_lazy_date_time_encoder_dict(self):
         encoder = LazyDateTimeEncoder()
         self.assertEqual(encoder.encode({'key': 1}), '{"key": 1}')
-

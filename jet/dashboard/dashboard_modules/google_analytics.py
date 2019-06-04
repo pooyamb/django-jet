@@ -2,9 +2,10 @@
 import datetime
 import json
 from django import forms
+
 try:
     from django.core.urlresolvers import reverse
-except ImportError: # Django 1.11
+except ImportError:  # Django 1.11
     from django.urls import reverse
 
 from django.forms import Widget
@@ -31,9 +32,7 @@ except ImportError:
     from django.forms.util import flatatt
 
 JET_MODULE_GOOGLE_ANALYTICS_CLIENT_SECRETS_FILE = getattr(
-    settings,
-    'JET_MODULE_GOOGLE_ANALYTICS_CLIENT_SECRETS_FILE',
-    ''
+    settings, 'JET_MODULE_GOOGLE_ANALYTICS_CLIENT_SECRETS_FILE', ''
 )
 
 
@@ -75,7 +74,7 @@ class GoogleAnalyticsClient:
             JET_MODULE_GOOGLE_ANALYTICS_CLIENT_SECRETS_FILE,
             scope='https://www.googleapis.com/auth/analytics.readonly',
             redirect_uri=redirect_uri,
-            prompt='consent'
+            prompt='consent',
         )
 
         if storage is not None:
@@ -105,10 +104,9 @@ class GoogleAnalyticsClient:
             return None, None
 
         try:
-            profiles = self.analytics_service.management().profiles().list(
-                accountId='~all',
-                webPropertyId='~all'
-            ).execute()
+            profiles = (
+                self.analytics_service.management().profiles().list(accountId='~all', webPropertyId='~all').execute()
+            )
 
             return profiles['items'], None
         except (TypeError, KeyError) as e:
@@ -128,13 +126,18 @@ class GoogleAnalyticsClient:
             dimensions = ''
 
         try:
-            data = self.analytics_service.data().ga().get(
-                ids='ga:' + profile_id,
-                start_date=date1.strftime('%Y-%m-%d'),
-                end_date=date2.strftime('%Y-%m-%d'),
-                metrics='ga:users,ga:sessions,ga:pageviews',
-                dimensions=dimensions
-            ).execute()
+            data = (
+                self.analytics_service.data()
+                .ga()
+                .get(
+                    ids='ga:' + profile_id,
+                    start_date=date1.strftime('%Y-%m-%d'),
+                    end_date=date2.strftime('%Y-%m-%d'),
+                    metrics='ga:users,ga:sessions,ga:pageviews',
+                    dimensions=dimensions,
+                )
+                .execute()
+            )
 
             return data, None
         except TypeError as e:
@@ -148,18 +151,15 @@ class CredentialWidget(Widget):
         if value and len(value) > 0:
             link = '<a href="%s">%s</a>' % (
                 reverse('jet-dashboard:google-analytics-revoke', kwargs={'pk': self.module.model.pk}),
-                force_text(_('Revoke access'))
+                force_text(_('Revoke access')),
             )
         else:
             link = '<a href="%s">%s</a>' % (
                 reverse('jet-dashboard:google-analytics-grant', kwargs={'pk': self.module.model.pk}),
-                force_text(_('Grant access'))
+                force_text(_('Grant access')),
             )
 
-        attrs = self.build_attrs({
-            'type': 'hidden',
-            'name': 'credential',
-        })
+        attrs = self.build_attrs({'type': 'hidden', 'name': 'credential'})
         attrs['value'] = force_unicode(value) if value else ''
 
         return format_html('%s<input{} />' % link, flatatt(attrs))
@@ -168,13 +168,16 @@ class CredentialWidget(Widget):
 class GoogleAnalyticsSettingsForm(forms.Form):
     credential = forms.CharField(label=_('Access'), widget=CredentialWidget)
     counter = forms.ChoiceField(label=_('Counter'))
-    period = forms.ChoiceField(label=_('Statistics period'), choices=(
-        (0, _('Today')),
-        (6, _('Last week')),
-        (30, _('Last month')),
-        (31 * 3 - 1, _('Last quarter')),
-        (364, _('Last year')),
-    ))
+    period = forms.ChoiceField(
+        label=_('Statistics period'),
+        choices=(
+            (0, _('Today')),
+            (6, _('Last week')),
+            (30, _('Last month')),
+            (31 * 3 - 1, _('Last quarter')),
+            (364, _('Last year')),
+        ),
+    )
 
     def set_module(self, module):
         self.fields['credential'].widget.module = module
@@ -186,29 +189,32 @@ class GoogleAnalyticsSettingsForm(forms.Form):
             self.fields['counter'].choices = (('', '-- %s --' % force_text(_('none'))),)
             self.fields['counter'].choices.extend(map(lambda x: (x['id'], x['websiteUrl']), counters))
         else:
-            label = force_text(_('grant access first')) if module.credential is None else force_text(_('counters loading failed'))
+            label = (
+                force_text(_('grant access first'))
+                if module.credential is None
+                else force_text(_('counters loading failed'))
+            )
             self.fields['counter'].choices = (('', '-- %s -- ' % label),)
 
 
 class GoogleAnalyticsChartSettingsForm(GoogleAnalyticsSettingsForm):
-    show = forms.ChoiceField(label=_('Show'), choices=(
-        ('ga:users', capfirst(_('users'))),
-        ('ga:sessions', capfirst(_('sessions'))),
-        ('ga:pageviews', capfirst(_('views'))),
-    ))
-    group = forms.ChoiceField(label=_('Group'), choices=(
-        ('day', _('By day')),
-        ('week', _('By week')),
-        ('month', _('By month')),
-    ))
+    show = forms.ChoiceField(
+        label=_('Show'),
+        choices=(
+            ('ga:users', capfirst(_('users'))),
+            ('ga:sessions', capfirst(_('sessions'))),
+            ('ga:pageviews', capfirst(_('views'))),
+        ),
+    )
+    group = forms.ChoiceField(
+        label=_('Group'), choices=(('day', _('By day')), ('week', _('By week')), ('month', _('By month')))
+    )
 
 
 class GoogleAnalyticsPeriodVisitorsSettingsForm(GoogleAnalyticsSettingsForm):
-    group = forms.ChoiceField(label=_('Group'), choices=(
-        ('day', _('By day')),
-        ('week', _('By week')),
-        ('month', _('By month')),
-    ))
+    group = forms.ChoiceField(
+        label=_('Group'), choices=(('day', _('By day')), ('week', _('By week')), ('month', _('By month')))
+    )
 
 
 class GoogleAnalyticsBase(DashboardModule):
@@ -226,11 +232,7 @@ class GoogleAnalyticsBase(DashboardModule):
         super(GoogleAnalyticsBase, self).__init__(title, **kwargs)
 
     def settings_dict(self):
-        return {
-            'period': self.period,
-            'credential': self.credential,
-            'counter': self.counter
-        }
+        return {'period': self.period, 'credential': self.credential, 'counter': self.counter}
 
     def load_settings(self, settings):
         try:
@@ -254,10 +256,7 @@ class GoogleAnalyticsBase(DashboardModule):
 
     def get_grouped_date(self, data, group):
         if group == 'week':
-            date = datetime.datetime.strptime(
-                '%s-%s-%s' % (data['ga_year'], data['ga_week'], '0'),
-                '%Y-%W-%w'
-            )
+            date = datetime.datetime.strptime('%s-%s-%s' % (data['ga_year'], data['ga_week'], '0'), '%Y-%W-%w')
         elif group == 'month':
             date = datetime.datetime.strptime(data['ga_year'] + data['ga_month'], '%Y%m')
         else:
@@ -268,10 +267,7 @@ class GoogleAnalyticsBase(DashboardModule):
         date = self.get_grouped_date(data, group)
 
         if group == 'week':
-            date = u'%s — %s' % (
-                (date - datetime.timedelta(days=6)).strftime('%d.%m'),
-                date.strftime('%d.%m')
-            )
+            date = u'%s — %s' % ((date - datetime.timedelta(days=6)).strftime('%d.%m'), date.strftime('%d.%m'))
         elif group == 'month':
             date = date.strftime('%b, %Y')
         else:
@@ -280,10 +276,18 @@ class GoogleAnalyticsBase(DashboardModule):
 
     def counter_attached(self):
         if self.credential is None:
-            self.error = mark_safe(_('Please <a href="%s">attach Google account and choose Google Analytics counter</a> to start using widget') % reverse('jet-dashboard:update_module', kwargs={'pk': self.model.pk}))
+            self.error = mark_safe(
+                _(
+                    'Please <a href="%s">attach Google account and choose Google Analytics counter</a> to start using widget'
+                )
+                % reverse('jet-dashboard:update_module', kwargs={'pk': self.model.pk})
+            )
             return False
         elif self.counter is None:
-            self.error = mark_safe(_('Please <a href="%s">select Google Analytics counter</a> to start using widget') % reverse('jet-dashboard:update_module', kwargs={'pk': self.model.pk}))
+            self.error = mark_safe(
+                _('Please <a href="%s">select Google Analytics counter</a> to start using widget')
+                % reverse('jet-dashboard:update_module', kwargs={'pk': self.model.pk})
+            )
             return False
         else:
             return True
@@ -298,13 +302,15 @@ class GoogleAnalyticsBase(DashboardModule):
                 result, exception = client.api_ga(self.counter, date1, date2, group)
 
                 if exception is not None:
-                        raise exception
+                    raise exception
 
                 return result
             except Exception as e:
                 error = _('API request failed.')
                 if isinstance(e, AccessTokenRefreshError):
-                    error += _(' Try to <a href="%s">revoke and grant access</a> again') % reverse('jet-dashboard:update_module', kwargs={'pk': self.model.pk})
+                    error += _(' Try to <a href="%s">revoke and grant access</a> again') % reverse(
+                        'jet-dashboard:update_module', kwargs={'pk': self.model.pk}
+                    )
                 self.error = mark_safe(error)
 
 

@@ -26,6 +26,7 @@ def get_install_requires():
 
     return install_requires
 
+
 setup(
     name='django-jet',
     version=__import__('jet').VERSION,
@@ -56,5 +57,5 @@ setup(
     ],
     zip_safe=False,
     include_package_data=True,
-    install_requires=get_install_requires()
+    install_requires=get_install_requires(),
 )
