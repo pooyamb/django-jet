@@ -12,6 +12,7 @@ from functools import reduce
 
 try:
     from django.apps import apps
+
     get_model = apps.get_model
 except ImportError:
     from django.db.models.loading import get_model
@@ -80,16 +81,12 @@ class ToggleApplicationPinForm(forms.ModelForm):
         if commit:
             try:
                 pinned_app = PinnedApplication.objects.get(
-                    app_label=self.cleaned_data['app_label'],
-                    user=self.request.user.pk
+                    app_label=self.cleaned_data['app_label'], user=self.request.user.pk
                 )
                 pinned_app.delete()
                 return False
             except PinnedApplication.DoesNotExist:
-                PinnedApplication.objects.create(
-                    app_label=self.cleaned_data['app_label'],
-                    user=self.request.user.pk
-                )
+                PinnedApplication.objects.create(app_label=self.cleaned_data['app_label'], user=self.request.user.pk)
                 return True
 
 
@@ -142,10 +139,12 @@ class ModelLookupForm(forms.Form):
         page = self.cleaned_data['page'] or 1
         offset = (page - 1) * limit
 
-        items = list(map(
-            lambda instance: {'id': instance.pk, 'text': get_model_instance_label(instance)},
-            qs.all()[offset:offset + limit]
-        ))
+        items = list(
+            map(
+                lambda instance: {'id': instance.pk, 'text': get_model_instance_label(instance)},
+                qs.all()[offset : offset + limit],
+            )
+        )
         total = qs.count()
 
         return items, total

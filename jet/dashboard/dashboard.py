@@ -1,7 +1,8 @@
 from importlib import import_module
+
 try:
     from django.core.urlresolvers import reverse
-except ImportError: # Django 1.11
+except ImportError:  # Django 1.11
     from django.urls import reverse
 
 from django.template.loader import render_to_string
@@ -117,24 +118,25 @@ class Dashboard(object):
             column = module.column if module.column is not None else i % self.columns
             order = module.order if module.order is not None else int(i / self.columns)
 
-            module_models.append(UserDashboardModule.objects.create(
-                title=module.title,
-                app_label=self.app_label,
-                user=user.pk,
-                module=module.fullname(),
-                column=column,
-                order=order,
-                settings=module.dump_settings(),
-                children=module.dump_children()
-            ))
+            module_models.append(
+                UserDashboardModule.objects.create(
+                    title=module.title,
+                    app_label=self.app_label,
+                    user=user.pk,
+                    module=module.fullname(),
+                    column=column,
+                    order=order,
+                    settings=module.dump_settings(),
+                    children=module.dump_children(),
+                )
+            )
             i += 1
 
         return module_models
 
     def load_modules(self):
         module_models = UserDashboardModule.objects.filter(
-            app_label=self.app_label,
-            user=self.context['request'].user.pk
+            app_label=self.app_label, user=self.context['request'].user.pk
         ).all()
 
         if len(module_models) == 0:
@@ -152,22 +154,16 @@ class Dashboard(object):
 
     def render(self):
         context = context_to_dict(self.context)
-        context.update({
-            'columns': range(self.columns),
-            'modules': self.modules,
-            'app_label': self.app_label,
-        })
+        context.update({'columns': range(self.columns), 'modules': self.modules, 'app_label': self.app_label})
         context.update(csrf(context['request']))
 
         return render_to_string('jet.dashboard/dashboard.html', context)
 
     def render_tools(self):
         context = context_to_dict(self.context)
-        context.update({
-            'children': self.children,
-            'app_label': self.app_label,
-            'available_children': self.available_children
-        })
+        context.update(
+            {'children': self.children, 'app_label': self.app_label, 'available_children': self.available_children}
+        )
         context.update(csrf(context['request']))
 
         return render_to_string('jet.dashboard/dashboard_tools.html', context)
@@ -196,10 +192,10 @@ class Dashboard(object):
 
 class AppIndexDashboard(Dashboard):
     def get_app_content_types(self):
-        return self.app_label + '.*',
+        return (self.app_label + '.*',)
 
     def models(self):
-        return self.app_label + '.*',
+        return (self.app_label + '.*',)
 
 
 class DefaultIndexDashboard(Dashboard):
@@ -211,95 +207,64 @@ class DefaultIndexDashboard(Dashboard):
 
         site_name = get_admin_site_name(context)
         # append a link list module for "quick links"
-        self.children.append(modules.LinkList(
-            _('Quick links'),
-            layout='inline',
-            draggable=False,
-            deletable=False,
-            collapsible=False,
-            children=[
-                [_('Return to site'), '/'],
-                [_('Change password'),
-                 reverse('%s:password_change' % site_name)],
-                [_('Log out'), reverse('%s:logout' % site_name)],
-            ],
-            column=0,
-            order=0
-        ))
+        self.children.append(
+            modules.LinkList(
+                _('Quick links'),
+                layout='inline',
+                draggable=False,
+                deletable=False,
+                collapsible=False,
+                children=[
+                    [_('Return to site'), '/'],
+                    [_('Change password'), reverse('%s:password_change' % site_name)],
+                    [_('Log out'), reverse('%s:logout' % site_name)],
+                ],
+                column=0,
+                order=0,
+            )
+        )
 
         # append an app list module for "Applications"
-        self.children.append(modules.AppList(
-            _('Applications'),
-            exclude=('auth.*',),
-            column=1,
-            order=0
-        ))
+        self.children.append(modules.AppList(_('Applications'), exclude=('auth.*',), column=1, order=0))
 
         # append an app list module for "Administration"
-        self.children.append(modules.AppList(
-            _('Administration'),
-            models=('auth.*',),
-            column=2,
-            order=0
-        ))
+        self.children.append(modules.AppList(_('Administration'), models=('auth.*',), column=2, order=0))
 
         # append a recent actions module
-        self.children.append(modules.RecentActions(
-            _('Recent Actions'),
-            10,
-            column=0,
-            order=1
-        ))
+        self.children.append(modules.RecentActions(_('Recent Actions'), 10, column=0, order=1))
 
         # append a feed module
-        self.children.append(modules.Feed(
-            _('Latest Django News'),
-            feed_url='http://www.djangoproject.com/rss/weblog/',
-            limit=5,
-            column=1,
-            order=1
-        ))
+        self.children.append(
+            modules.Feed(
+                _('Latest Django News'), feed_url='http://www.djangoproject.com/rss/weblog/', limit=5, column=1, order=1
+            )
+        )
 
         # append another link list module for "support".
-        self.children.append(modules.LinkList(
-            _('Support'),
-            children=[
-                {
-                    'title': _('Django documentation'),
-                    'url': 'http://docs.djangoproject.com/',
-                    'external': True,
-                },
-                {
-                    'title': _('Django "django-users" mailing list'),
-                    'url': 'http://groups.google.com/group/django-users',
-                    'external': True,
-                },
-                {
-                    'title': _('Django irc channel'),
-                    'url': 'irc://irc.freenode.net/django',
-                    'external': True,
-                },
-            ],
-            column=2,
-            order=1
-        ))
+        self.children.append(
+            modules.LinkList(
+                _('Support'),
+                children=[
+                    {'title': _('Django documentation'), 'url': 'http://docs.djangoproject.com/', 'external': True},
+                    {
+                        'title': _('Django "django-users" mailing list'),
+                        'url': 'http://groups.google.com/group/django-users',
+                        'external': True,
+                    },
+                    {'title': _('Django irc channel'), 'url': 'irc://irc.freenode.net/django', 'external': True},
+                ],
+                column=2,
+                order=1,
+            )
+        )
 
 
 class DefaultAppIndexDashboard(AppIndexDashboard):
     def init_with_context(self, context):
         self.available_children.append(modules.LinkList)
 
-        self.children.append(modules.ModelList(
-            title=_('Application models'),
-            models=self.models(),
-            column=0,
-            order=0
-        ))
-        self.children.append(modules.RecentActions(
-            include_list=self.get_app_content_types(),
-            column=1,
-            order=0
-        ))
+        self.children.append(modules.ModelList(title=_('Application models'), models=self.models(), column=0, order=0))
+        self.children.append(modules.RecentActions(include_list=self.get_app_content_types(), column=1, order=0))
 
 
 class DashboardUrls(object):
@@ -313,5 +278,6 @@ class DashboardUrls(object):
 
     def register_urls(self, urls):
         self._urls.extend(urls)
+
 
 urls = DashboardUrls()

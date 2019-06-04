@@ -28,7 +28,7 @@ class UpdateDashboardModulesForm(forms.Form):
                 db_module = UserDashboardModule.objects.get(
                     user=self.request.user.pk,
                     app_label=data['app_label'] if data['app_label'] else None,
-                    pk=module['id']
+                    pk=module['id'],
                 )
 
                 column = module['column']
@@ -165,6 +165,5 @@ class ResetDashboardForm(forms.Form):
     def save(self, commit=True):
         if commit:
             UserDashboardModule.objects.filter(
-                user=self.request.user.pk,
-                app_label=self.cleaned_data['app_label']
+                user=self.request.user.pk, app_label=self.cleaned_data['app_label']
             ).delete()

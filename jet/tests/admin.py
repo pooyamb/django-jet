@@ -9,5 +9,6 @@ class TestModelAdmin(admin.ModelAdmin):
 class RelatedToTestModelAdmin(admin.ModelAdmin):
     pass
 
+
 admin.site.register(TestModel, TestModelAdmin)
 admin.site.register(RelatedToTestModel, RelatedToTestModelAdmin)

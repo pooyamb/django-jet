@@ -5,3 +5,6 @@
 /.idea
 /docs/_build/
 /node_modules/
+.tox
+pip-wheel-metadata
+.vscode

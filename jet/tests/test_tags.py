@@ -1,7 +1,9 @@
+from django.contrib.auth.models import User
 from django import forms
+
 try:
     from django.core.urlresolvers import reverse
-except ImportError: # Django 1.11
+except ImportError:  # Django 1.11
     from django.urls import reverse
 
 from django.test import TestCase
@@ -9,7 +11,15 @@ from jet.templatetags.jet_tags import jet_select2_lookups, jet_next_object, jet_
 from jet.tests.models import TestModel, SearchableTestModel
 from django.test.client import RequestFactory
 
+
 class TagsTestCase(TestCase):
+    def _get_user(self):
+        request = RequestFactory()
+        username = 'admin'
+        email = 'admin@example.com'
+        password = 'admin'
+        return User.objects.create_superuser(username, email, password)
+
     def setUp(self):
         self.models = []
         self.searchable_models = []
@@ -65,16 +75,22 @@ class TagsTestCase(TestCase):
         ordering_field = 1  # field1 in list_display
         preserved_filters = '_changelist_filters=o%%3D%d' % ordering_field
 
-        expected_url = reverse('admin:%s_%s_change' % (
-            TestModel._meta.app_label,
-            TestModel._meta.model_name
-        ), args=(self.models[1].pk,)) + '?' + preserved_filters
+        expected_url = (
+            reverse(
+                'admin:%s_%s_change' % (TestModel._meta.app_label, TestModel._meta.model_name),
+                args=(self.models[1].pk,),
+            )
+            + '?'
+            + preserved_filters
+        )
 
         context = {
             'original': instance,
             'preserved_filters': preserved_filters,
             'request': RequestFactory().get(expected_url),
         }
+
+        context['request'].user = self._get_user()
 
         actual_url = jet_next_object(context)['url']
 
@@ -85,16 +101,22 @@ class TagsTestCase(TestCase):
         ordering_field = 1  # field1 in list_display
         preserved_filters = '_changelist_filters=o%%3D%d' % ordering_field
 
-        changelist_url = reverse('admin:%s_%s_change' % (
-            TestModel._meta.app_label,
-            TestModel._meta.model_name
-        ), args=(self.models[1].pk,)) + '?' + preserved_filters
+        changelist_url = (
+            reverse(
+                'admin:%s_%s_change' % (TestModel._meta.app_label, TestModel._meta.model_name),
+                args=(self.models[1].pk,),
+            )
+            + '?'
+            + preserved_filters
+        )
 
         context = {
             'original': instance,
             'preserved_filters': preserved_filters,
             'request': RequestFactory().get(changelist_url),
         }
+
+        context['request'].user = self._get_user()
 
         previous_object = jet_previous_object(context)
         expected_object = None

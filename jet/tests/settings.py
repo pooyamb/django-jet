@@ -50,14 +50,10 @@ else:
                     'django.contrib.messages.context_processors.messages',
                 )
             },
-        },
+        }
     ]
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-    }
-}
+DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3'}}
 
 TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en-US'

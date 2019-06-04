@@ -6,8 +6,7 @@ from django.db import models, migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
@@ -29,5 +28,5 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'user dashboard modules',
                 'ordering': ('column', 'order'),
             },
-        ),
+        )
     ]

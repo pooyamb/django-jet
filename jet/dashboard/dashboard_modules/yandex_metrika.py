@@ -2,9 +2,10 @@
 import datetime
 import json
 from django import forms
+
 try:
     from django.core.urlresolvers import reverse
-except ImportError: # Django 1.11
+except ImportError:  # Django 1.11
     from django.urls import reverse
 
 from django.forms import Widget
@@ -60,10 +61,12 @@ class YandexMetrikaClient:
         return result, None
 
     def get_oauth_authorize_url(self, state=''):
-        return '%sauthorize' \
-               '?response_type=code' \
-               '&state=%s' \
-               '&client_id=%s' % (self.OAUTH_BASE_URL, state, self.CLIENT_ID)
+        return (
+            '%sauthorize'
+            '?response_type=code'
+            '&state=%s'
+            '&client_id=%s' % (self.OAUTH_BASE_URL, state, self.CLIENT_ID)
+        )
 
     def oauth_request(self, url, data=None):
         return self.request(self.OAUTH_BASE_URL, url, data)
@@ -73,7 +76,7 @@ class YandexMetrikaClient:
             'grant_type': 'authorization_code',
             'code': code,
             'client_id': self.CLIENT_ID,
-            'client_secret': self.CLIENT_SECRET
+            'client_secret': self.CLIENT_SECRET,
         }
         return self.oauth_request('token', data)
 
@@ -89,12 +92,10 @@ class YandexMetrikaClient:
     def api_stat_traffic_summary(self, counter, date1, date2, group=None):
         if group is None:
             group = 'day'
-        return self.api_request('stat/traffic/summary.json?id=%s&date1=%s&date2=%s&group=%s' % (
-            counter,
-            date1.strftime('%Y%m%d'),
-            date2.strftime('%Y%m%d'),
-            group
-        ))
+        return self.api_request(
+            'stat/traffic/summary.json?id=%s&date1=%s&date2=%s&group=%s'
+            % (counter, date1.strftime('%Y%m%d'), date2.strftime('%Y%m%d'), group)
+        )
 
 
 class AccessTokenWidget(Widget):
@@ -104,12 +105,12 @@ class AccessTokenWidget(Widget):
         if value and len(value) > 0:
             link = '<a href="%s">%s</a>' % (
                 reverse('jet-dashboard:yandex-metrika-revoke', kwargs={'pk': self.module.model.pk}),
-                force_text(_('Revoke access'))
+                force_text(_('Revoke access')),
             )
         else:
             link = '<a href="%s">%s</a>' % (
                 reverse('jet-dashboard:yandex-metrika-grant', kwargs={'pk': self.module.model.pk}),
-                force_text(_('Grant access'))
+                force_text(_('Grant access')),
             )
 
         if value is None:
@@ -121,13 +122,16 @@ class AccessTokenWidget(Widget):
 class YandexMetrikaSettingsForm(forms.Form):
     access_token = forms.CharField(label=_('Access'), widget=AccessTokenWidget)
     counter = forms.ChoiceField(label=_('Counter'))
-    period = forms.ChoiceField(label=_('Statistics period'), choices=(
-        (0, _('Today')),
-        (6, _('Last week')),
-        (30, _('Last month')),
-        (31 * 3 - 1, _('Last quarter')),
-        (364, _('Last year')),
-    ))
+    period = forms.ChoiceField(
+        label=_('Statistics period'),
+        choices=(
+            (0, _('Today')),
+            (6, _('Last week')),
+            (30, _('Last month')),
+            (31 * 3 - 1, _('Last quarter')),
+            (364, _('Last year')),
+        ),
+    )
 
     def set_module(self, module):
         self.fields['access_token'].widget.module = module
@@ -139,29 +143,32 @@ class YandexMetrikaSettingsForm(forms.Form):
             self.fields['counter'].choices = (('', '-- %s --' % force_text(_('none'))),)
             self.fields['counter'].choices.extend(map(lambda x: (x['id'], x['site']), counters))
         else:
-            label = force_text(_('grant access first')) if module.access_token is None else force_text(_('counters loading failed'))
+            label = (
+                force_text(_('grant access first'))
+                if module.access_token is None
+                else force_text(_('counters loading failed'))
+            )
             self.fields['counter'].choices = (('', '-- %s -- ' % label),)
 
 
 class YandexMetrikaChartSettingsForm(YandexMetrikaSettingsForm):
-    show = forms.ChoiceField(label=_('Show'), choices=(
-        ('visitors', capfirst(_('visitors'))),
-        ('visits', capfirst(_('visits'))),
-        ('page_views', capfirst(_('views'))),
-    ))
-    group = forms.ChoiceField(label=_('Group'), choices=(
-        ('day', _('By day')),
-        ('week', _('By week')),
-        ('month', _('By month')),
-    ))
+    show = forms.ChoiceField(
+        label=_('Show'),
+        choices=(
+            ('visitors', capfirst(_('visitors'))),
+            ('visits', capfirst(_('visits'))),
+            ('page_views', capfirst(_('views'))),
+        ),
+    )
+    group = forms.ChoiceField(
+        label=_('Group'), choices=(('day', _('By day')), ('week', _('By week')), ('month', _('By month')))
+    )
 
 
 class YandexMetrikaPeriodVisitorsSettingsForm(YandexMetrikaSettingsForm):
-    group = forms.ChoiceField(label=_('Group'), choices=(
-        ('day', _('By day')),
-        ('week', _('By week')),
-        ('month', _('By month')),
-    ))
+    group = forms.ChoiceField(
+        label=_('Group'), choices=(('day', _('By day')), ('week', _('By week')), ('month', _('By month')))
+    )
 
 
 class YandexMetrikaBase(DashboardModule):
@@ -181,7 +188,7 @@ class YandexMetrikaBase(DashboardModule):
             'access_token': self.access_token,
             'expires_in': self.expires_in,
             'token_type': self.token_type,
-            'counter': self.counter
+            'counter': self.counter,
         }
 
     def load_settings(self, settings):
@@ -208,10 +215,7 @@ class YandexMetrikaBase(DashboardModule):
 
     def format_grouped_date(self, date, group):
         if group == 'week':
-            date = u'%s — %s' % (
-                (date - datetime.timedelta(days=7)).strftime('%d.%m'),
-                date.strftime('%d.%m')
-            )
+            date = u'%s — %s' % ((date - datetime.timedelta(days=7)).strftime('%d.%m'), date.strftime('%d.%m'))
         elif group == 'month':
             date = date.strftime('%b, %Y')
         else:
@@ -220,10 +224,18 @@ class YandexMetrikaBase(DashboardModule):
 
     def counter_attached(self):
         if self.access_token is None:
-            self.error = mark_safe(_('Please <a href="%s">attach Yandex account and choose Yandex Metrika counter</a> to start using widget') % reverse('jet-dashboard:update_module', kwargs={'pk': self.model.pk}))
+            self.error = mark_safe(
+                _(
+                    'Please <a href="%s">attach Yandex account and choose Yandex Metrika counter</a> to start using widget'
+                )
+                % reverse('jet-dashboard:update_module', kwargs={'pk': self.model.pk})
+            )
             return False
         elif self.counter is None:
-            self.error = mark_safe(_('Please <a href="%s">select Yandex Metrika counter</a> to start using widget') % reverse('jet-dashboard:update_module', kwargs={'pk': self.model.pk}))
+            self.error = mark_safe(
+                _('Please <a href="%s">select Yandex Metrika counter</a> to start using widget')
+                % reverse('jet-dashboard:update_module', kwargs={'pk': self.model.pk})
+            )
             return False
         else:
             return True
@@ -239,7 +251,9 @@ class YandexMetrikaBase(DashboardModule):
             if exception is not None:
                 error = _('API request failed.')
                 if isinstance(exception, HTTPError) and exception.code == 403:
-                    error += _(' Try to <a href="%s">revoke and grant access</a> again') % reverse('jet-dashboard:update_module', kwargs={'pk': self.model.pk})
+                    error += _(' Try to <a href="%s">revoke and grant access</a> again') % reverse(
+                        'jet-dashboard:update_module', kwargs={'pk': self.model.pk}
+                    )
                 self.error = mark_safe(error)
             else:
                 return result

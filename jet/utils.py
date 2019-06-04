@@ -9,14 +9,15 @@ try:
     from django.apps.registry import apps
 except ImportError:
     try:
-        from django.apps import apps # Fix Django 1.7 import issue
+        from django.apps import apps  # Fix Django 1.7 import issue
     except ImportError:
         pass
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse
+
 try:
     from django.core.urlresolvers import reverse, resolve, NoReverseMatch
-except ImportError: # Django 1.11
+except ImportError:  # Django 1.11
     from django.urls import reverse, resolve, NoReverseMatch
 
 from django.contrib.admin import AdminSite
@@ -50,8 +51,7 @@ class JsonResponse(HttpResponse):
 
     def __init__(self, data, encoder=DjangoJSONEncoder, safe=True, **kwargs):
         if safe and not isinstance(data, dict):
-            raise TypeError('In order to allow non-dict objects to be '
-                'serialized set the safe parameter to False')
+            raise TypeError('In order to allow non-dict objects to be ' 'serialized set the safe parameter to False')
         kwargs.setdefault('content_type', 'application/json')
         data = json.dumps(data, cls=encoder)
         super(JsonResponse, self).__init__(content=data, **kwargs)
@@ -67,7 +67,7 @@ def get_app_list(context, order=True):
         try:
             has_module_perms = model_admin.has_module_permission(request)
         except AttributeError:
-            has_module_perms = request.user.has_module_perms(app_label) # Fix Django < 1.8 issue
+            has_module_perms = request.user.has_module_perms(app_label)  # Fix Django < 1.8 issue
 
         if has_module_perms:
             perms = model_admin.get_model_perms(request)
@@ -80,7 +80,7 @@ def get_app_list(context, order=True):
                     'name': capfirst(model._meta.verbose_name_plural),
                     'object_name': model._meta.object_name,
                     'perms': perms,
-                    'model_name': model._meta.model_name
+                    'model_name': model._meta.model_name,
                 }
                 if perms.get('change', False):
                     try:
@@ -103,9 +103,7 @@ def get_app_list(context, order=True):
                         'name': name,
                         'app_label': app_label,
                         'app_url': reverse(
-                            'admin:app_list',
-                            kwargs={'app_label': app_label},
-                            current_app=admin_site.name,
+                            'admin:app_list', kwargs={'app_label': app_label}, current_app=admin_site.name
                         ),
                         'has_module_perms': has_module_perms,
                         'models': [model_dict],
@@ -164,6 +162,7 @@ class SuccessMessageMixin(object):
     """
     Adds a success message on successful form submission.
     """
+
     success_message = ''
 
     def form_valid(self, form):
@@ -184,11 +183,9 @@ def get_model_queryset(admin_site, model, request, preserved_filters=None):
         return
 
     try:
-        changelist_url = reverse('%s:%s_%s_changelist' % (
-            admin_site.name,
-            model._meta.app_label,
-            model._meta.model_name
-        ))
+        changelist_url = reverse(
+            '%s:%s_%s_changelist' % (admin_site.name, model._meta.app_label, model._meta.model_name)
+        )
     except NoReverseMatch:
         return
 
@@ -208,10 +205,16 @@ def get_model_queryset(admin_site, model, request, preserved_filters=None):
     list_display = model_admin.get_list_display(request)
     list_display_links = model_admin.get_list_display_links(request, list_display)
     list_filter = model_admin.get_list_filter(request)
-    search_fields = model_admin.get_search_fields(request) \
-        if hasattr(model_admin, 'get_search_fields') else model_admin.search_fields
-    list_select_related = model_admin.get_list_select_related(request) \
-        if hasattr(model_admin, 'get_list_select_related') else model_admin.list_select_related
+    search_fields = (
+        model_admin.get_search_fields(request)
+        if hasattr(model_admin, 'get_search_fields')
+        else model_admin.search_fields
+    )
+    list_select_related = (
+        model_admin.get_list_select_related(request)
+        if hasattr(model_admin, 'get_list_select_related')
+        else model_admin.list_select_related
+    )
 
     actions = model_admin.get_actions(request)
     if actions:
@@ -220,10 +223,19 @@ def get_model_queryset(admin_site, model, request, preserved_filters=None):
     ChangeList = model_admin.get_changelist(request)
 
     change_list_args = [
-        request, model, list_display, list_display_links, list_filter,
-        model_admin.date_hierarchy, search_fields, list_select_related,
-        model_admin.list_per_page, model_admin.list_max_show_all,
-        model_admin.list_editable, model_admin]
+        request,
+        model,
+        list_display,
+        list_display_links,
+        list_filter,
+        model_admin.date_hierarchy,
+        search_fields,
+        list_select_related,
+        model_admin.list_per_page,
+        model_admin.list_max_show_all,
+        model_admin.list_editable,
+        model_admin,
+    ]
 
     try:
         sortable_by = model_admin.get_sortable_by(request)
@@ -269,23 +281,31 @@ def get_original_menu_items(context):
 
     original_app_list = get_app_list(context)
 
-    return map(lambda app: {
-        'app_label': app['app_label'],
-        'url': app['app_url'],
-        'url_blank': False,
-        'label': app.get('name', capfirst(_(app['app_label']))),
-        'has_perms': app.get('has_module_perms', False),
-        'models': list(map(lambda model: {
-            'url': model.get('admin_url'),
+    return map(
+        lambda app: {
+            'app_label': app['app_label'],
+            'url': app['app_url'],
             'url_blank': False,
-            'name': model['model_name'],
-            'object_name': model['object_name'],
-            'label': model.get('name', model['object_name']),
-            'has_perms': any(model.get('perms', {}).values()),
-        }, app['models'])),
-        'pinned': app['app_label'] in pinned_apps,
-        'custom': False
-    }, original_app_list)
+            'label': app.get('name', capfirst(_(app['app_label']))),
+            'has_perms': app.get('has_module_perms', False),
+            'models': list(
+                map(
+                    lambda model: {
+                        'url': model.get('admin_url'),
+                        'url_blank': False,
+                        'name': model['model_name'],
+                        'object_name': model['object_name'],
+                        'label': model.get('name', model['object_name']),
+                        'has_perms': any(model.get('perms', {}).values()),
+                    },
+                    app['models'],
+                )
+            ),
+            'pinned': app['app_label'] in pinned_apps,
+            'custom': False,
+        },
+        original_app_list,
+    )
 
 
 def get_menu_item_url(url, original_app_list):
@@ -295,10 +315,7 @@ def get_menu_item_url(url, original_app_list):
         if url_type == 'app':
             return original_app_list[url['app_label']]['url']
         elif url_type == 'model':
-            models = dict(map(
-                lambda x: (x['name'], x['url']),
-                original_app_list[url['app_label']]['models']
-            ))
+            models = dict(map(lambda x: (x['name'], x['url']), original_app_list[url['app_label']]['models']))
             return models[url['model']]
         elif url_type == 'reverse':
             return reverse(url['name'], args=url.get('args'), kwargs=url.get('kwargs'))
@@ -331,10 +348,7 @@ def get_menu_items(context):
                     name = data['name']
 
                 if app_label in original_app_list:
-                    models = dict(map(
-                        lambda x: (x['name'], x),
-                        original_app_list[app_label]['models']
-                    ))
+                    models = dict(map(lambda x: (x['name'], x), original_app_list[app_label]['models']))
 
                     if name in models:
                         item = models[name].copy()
@@ -426,9 +440,11 @@ def get_menu_items(context):
 
                 app_list.append(app)
     else:
+
         def map_item(item):
             item['items'] = item['models']
             return item
+
         app_list = list(map(map_item, original_app_list.values()))
 
     current_found = False
