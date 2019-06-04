@@ -15,6 +15,7 @@ var gulp = require('gulp'),
     autoprefixer = require('autoprefixer'),
     shell = require('gulp-shell'),
     replace = require('gulp-replace');
+    babelify = require("babelify");
 
 var cssProcessors = [
     autoprefixer(),
@@ -27,9 +28,13 @@ var cssProcessors = [
 
 gulp.task('scripts', function() {
     return browserify('./jet/static/jet/js/src/main.js')
+        .transform(babelify.configure({
+            presets: ["@babel/preset-env"]
+        }))
         .bundle()
         .on('error', function(error) {
-            console.error(error);
+            console.error(error.toString())
+            this.emit('end')
         })
         .pipe(source('bundle.min.js'))
         .pipe(buffer())
@@ -44,11 +49,12 @@ gulp.task('styles', function() {
             outputStyle: 'compressed'
         }))
         .on('error', function(error) {
-            console.error(error);
+            console.error(error.toString())
+            this.emit('end')
         })
-        .pipe(postcss(cssProcessors))
         .on('error', function(error) {
-            console.error(error);
+            console.error(error.toString())
+            this.emit('end')
         })
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./jet/static/jet/css'));
@@ -119,14 +125,14 @@ gulp.task('vendor-translations', function() {
     )
 });
 
-gulp.task('locales', shell.task('python manage.py compilemessages', { quiet: true }));
+gulp.task('locales', gulp.series(shell.task('python manage.py compilemessages', { quiet: true })));
 
-gulp.task('build', ['scripts', 'styles', 'vendor-styles', 'vendor-translations', 'locales']);
+gulp.task('build', gulp.parallel('scripts', 'styles', 'vendor-styles', 'vendor-translations', 'locales'));
 
 gulp.task('watch', function() {
-    gulp.watch('./jet/static/jet/js/src/**/*.js', ['scripts']);
-    gulp.watch('./jet/static/jet/css/**/*.scss', ['styles']);
-    gulp.watch(['./jet/locale/**/*.po', './jet/dashboard/locale/**/*.po'], ['locales']);
+    gulp.watch('./jet/static/jet/js/src/**/*.js', gulp.series('scripts'));
+    gulp.watch('./jet/static/jet/css/**/*.scss', gulp.series('styles'));
+    gulp.watch(['./jet/locale/**/*.po', './jet/dashboard/locale/**/*.po'], gulp.series('locales'));
 });
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', gulp.series('build', 'watch'));
