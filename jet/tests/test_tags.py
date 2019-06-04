@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django import forms
 try:
     from django.core.urlresolvers import reverse
@@ -10,6 +11,13 @@ from jet.tests.models import TestModel, SearchableTestModel
 from django.test.client import RequestFactory
 
 class TagsTestCase(TestCase):
+    def _get_user(self):
+        request = RequestFactory()
+        username = 'admin'
+        email = 'admin@example.com'
+        password = 'admin'
+        return User.objects.create_superuser(username, email, password)
+
     def setUp(self):
         self.models = []
         self.searchable_models = []
@@ -75,6 +83,8 @@ class TagsTestCase(TestCase):
             'preserved_filters': preserved_filters,
             'request': RequestFactory().get(expected_url),
         }
+        
+        context['request'].user = self._get_user()
 
         actual_url = jet_next_object(context)['url']
 
@@ -95,6 +105,8 @@ class TagsTestCase(TestCase):
             'preserved_filters': preserved_filters,
             'request': RequestFactory().get(changelist_url),
         }
+
+        context['request'].user = self._get_user()
 
         previous_object = jet_previous_object(context)
         expected_object = None

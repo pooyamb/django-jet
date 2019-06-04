@@ -1,8 +1,5 @@
 from django.contrib.auth.models import User
-try:
-    from django.core.urlresolvers import reverse
-except ImportError: # Django 1.11
-    from django.urls import reverse
+from django.urls import reverse
 
 from django.test import TestCase, Client
 from jet.dashboard.dashboard import Dashboard
@@ -35,7 +32,7 @@ class DashboardTestCase(TestCase):
             app_label=None,
             user=self.admin_user.pk,
             column=0,
-            order=0
+            order=0,
         )
         UserDashboardModule.objects.create(
             title='',
@@ -43,7 +40,7 @@ class DashboardTestCase(TestCase):
             app_label=None,
             user=self.admin_user.pk,
             column=0,
-            order=1
+            order=1,
         )
         self.dashboard = TestIndexDashboard({'request': self.Request(self.admin_user)})
 
