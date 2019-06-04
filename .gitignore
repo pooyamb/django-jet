@@ -8,3 +8,4 @@
 .tox
 pip-wheel-metadata
 .vscode
+db.sqlite3
