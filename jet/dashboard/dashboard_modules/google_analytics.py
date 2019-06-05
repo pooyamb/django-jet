@@ -307,7 +307,6 @@ class GoogleAnalyticsBase(DashboardModule):
                 return result
             except Exception as e:
                 error = _('API request failed.')
-                print(e.with_traceback)
                 if isinstance(e, AccessTokenRefreshError):
                     error += _(' Try to <a href="%s">revoke and grant access</a> again') % reverse(
                         'jet-dashboard:update_module', kwargs={'pk': self.model.pk}
