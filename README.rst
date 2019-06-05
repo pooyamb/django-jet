@@ -15,6 +15,24 @@ for a long time now, instead I will maintain this repo myself and for my own pro
 I won't maintain old django versions compablity and old python versions too,
 so if you don't use django +2 and python +3.6, you may end up with errors
 
+Features(This fork)
+============
+* Updated all the JS dependencies
+* JQuery.cookie replaced by js-cookie
+* No JQuery UI
+* JQuery UI datetpicker and timepicker replaced by Flatpickr date/time picker
+* JQuery UI drag and drop replaced by JQuery-sortablejs
+* JQuery UI dialog replaced by alertifyjs
+* JQuery UI tooltip replaced by tooltipster
+* Some of the bugs from main repo are fixed(and some new bugs added to the code)
+
+TODO
+=====
+* Tests are broken
+* Needs new tests(main repo needs them too!)
+* Documentations are obselete right now
+* Some bugs here and there
+
 Introduction
 ============
 
