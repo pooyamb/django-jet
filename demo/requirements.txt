@@ -1,0 +1,10 @@
+django==2.2.2
+django-admin-sortable2==0.7.1
+django-ckeditor==5.7.1
+django-debug-toolbar==1.11
+django-mptt==0.10.0
+django-smtp-ssl==1.0
+django-tinymce==2.8.0
+docutils==0.14
+feedparser==5.2.1
+google-api-python-client==1.7.9

@@ -2,10 +2,12 @@
 *.DS_Store
 *.egg*
 /dist/
+/build/
 /.idea
 /docs/_build/
 /node_modules/
 .tox
 pip-wheel-metadata
 .vscode
-db.sqlite3
+*.db
+/env/

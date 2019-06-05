@@ -1,0 +1,177 @@
+[{
+  "fields": {
+    "email": "admin@example.com",
+    "is_staff": true,
+    "date_joined": "2015-08-28T12:39:36Z",
+    "password": "pbkdf2_sha256$20000$WrXnUvgmH4ir$iQrRDpw09oIazEzMC0los5CEoD6hA+r8bJ2IzUmv9nY=",
+    "user_permissions": [],
+    "groups": [],
+    "is_active": true,
+    "is_superuser": true,
+    "last_name": "",
+    "username": "admin",
+    "last_login": "2015-09-07T15:00:17Z",
+    "first_name": ""
+  },
+  "model": "auth.user",
+  "pk": 1
+}, {
+  "fields": {
+    "user": 1,
+    "title": "NY state",
+    "url": "/admin/people/state/16/",
+    "date_add": "2015-09-07T14:55:05Z"
+  },
+  "model": "jet.bookmark",
+  "pk": 1
+}, {
+  "fields": {
+    "user": 1,
+    "app_label": "people",
+    "date_add": "2015-09-07T14:41:27Z"
+  },
+  "model": "jet.pinnedapplication",
+  "pk": 1
+}, {
+  "fields": {
+    "user": 1,
+    "app_label": "editors",
+    "date_add": "2015-09-07T14:41:31Z"
+  },
+  "model": "jet.pinnedapplication",
+  "pk": 2
+}, {
+  "fields": {
+    "user": 1,
+    "app_label": "menu",
+    "date_add": "2015-09-07T14:41:36Z"
+  },
+  "model": "jet.pinnedapplication",
+  "pk": 3
+}, {
+  "fields": {
+    "children": "[{\"url\": \"/\", \"title\": \"Return to site\"}, {\"url\": \"/admin/password_change/\", \"title\": \"Change password\"}, {\"url\": \"/admin/logout/\", \"title\": \"Log out\"}]",
+    "column": 2,
+    "module": "jet.dashboard.modules.LinkList",
+    "user": 1,
+    "title": "Quick links",
+    "app_label": null,
+    "settings": "{\"layout\": \"inline\"}",
+    "order": 0,
+    "collapsed": false
+  },
+  "model": "dashboard.userdashboardmodule",
+  "pk": 1
+}, {
+  "fields": {
+    "children": "",
+    "column": 1,
+    "module": "jet.dashboard.modules.AppList",
+    "user": 1,
+    "title": "Applications",
+    "app_label": null,
+    "settings": "{\"exclude\": [\"auth.*\"], \"models\": null}",
+    "order": 1,
+    "collapsed": false
+  },
+  "model": "dashboard.userdashboardmodule",
+  "pk": 2
+}, {
+  "fields": {
+    "children": "",
+    "column": 1,
+    "module": "jet.dashboard.modules.AppList",
+    "user": 1,
+    "title": "Administration",
+    "app_label": null,
+    "settings": "{\"exclude\": null, \"models\": [\"auth.*\"]}",
+    "order": 2,
+    "collapsed": false
+  },
+  "model": "dashboard.userdashboardmodule",
+  "pk": 3
+}, {
+  "fields": {
+    "children": "",
+    "column": 2,
+    "module": "jet.dashboard.modules.RecentActions",
+    "user": 1,
+    "title": "Recent Actions",
+    "app_label": null,
+    "settings": "{\"include_list\": null, \"user\": null, \"limit\": 10, \"exclude_list\": null}",
+    "order": 2,
+    "collapsed": false
+  },
+  "model": "dashboard.userdashboardmodule",
+  "pk": 4
+}, {
+  "fields": {
+    "children": "",
+    "column": 2,
+    "module": "jet.dashboard.modules.Feed",
+    "user": 1,
+    "title": "Latest Django News",
+    "app_label": null,
+    "settings": "{\"limit\": 5, \"feed_url\": \"http://www.djangoproject.com/rss/weblog/\"}",
+    "order": 1,
+    "collapsed": false
+  },
+  "model": "dashboard.userdashboardmodule",
+  "pk": 5
+}, {
+  "fields": {
+    "children": "[{\"external\": true, \"url\": \"http://docs.djangoproject.com/\", \"title\": \"Django documentation\"}, {\"external\": true, \"url\": \"http://groups.google.com/group/django-users\", \"title\": \"Django \\\"django-users\\\" mailing list\"}, {\"external\": true, \"url\": \"irc://irc.freenode.net/django\", \"title\": \"Django irc channel\"}]",
+    "column": 0,
+    "module": "jet.dashboard.modules.LinkList",
+    "user": 1,
+    "title": "Support",
+    "app_label": null,
+    "settings": "{\"layout\": \"stacked\"}",
+    "order": 2,
+    "collapsed": false
+  },
+  "model": "dashboard.userdashboardmodule",
+  "pk": 6
+}, {
+  "fields": {
+    "children": "",
+    "column": 1,
+    "module": "jet.dashboard.dashboard_modules.google_analytics.GoogleAnalyticsVisitorsTotals",
+    "user": 1,
+    "title": "Google Analytics visitors totals",
+    "app_label": null,
+    "settings": "{\"counter\": \"108041921\", \"period\": \"0\", \"credential\": \"{\\\"token_expiry\\\": \\\"2015-09-07T15:37:49Z\\\", \\\"invalid\\\": false, \\\"token_response\\\": {\\\"access_token\\\": \\\"ya29.5wFCb0AjCe8o-MpqwAIlI4At8cMN5hw_QGZNYSU9RnbxnZw6ymojUW6frIDs7eTePe7h\\\", \\\"expires_in\\\": 3600, \\\"refresh_token\\\": \\\"1/1CYyqTQ6WW3MH_CEflvIRGSWNLp3V8tTfcQKtlLUm1U\\\", \\\"token_type\\\": \\\"Bearer\\\"}, \\\"_class\\\": \\\"OAuth2Credentials\\\", \\\"refresh_token\\\": \\\"1/1CYyqTQ6WW3MH_CEflvIRGSWNLp3V8tTfcQKtlLUm1U\\\", \\\"token_uri\\\": \\\"https://accounts.google.com/o/oauth2/token\\\", \\\"user_agent\\\": null, \\\"_module\\\": \\\"oauth2client.client\\\", \\\"client_id\\\": \\\"213559765482-u11oekasrlj9uin7qgd18das6cdas5o1.apps.googleusercontent.com\\\", \\\"revoke_uri\\\": \\\"https://accounts.google.com/o/oauth2/revoke\\\", \\\"access_token\\\": \\\"ya29.5wFCb0AjCe8o-MpqwAIlI4At8cMN5hw_QGZNYSU9RnbxnZw6ymojUW6frIDs7eTePe7h\\\", \\\"client_secret\\\": \\\"RjOsnPPyCOMvskhoIycFph9_\\\", \\\"id_token\\\": null, \\\"token_info_uri\\\": \\\"https://www.googleapis.com/oauth2/v2/tokeninfo\\\", \\\"scopes\\\": [\\\"https://www.googleapis.com/auth/analytics.readonly\\\"]}\"}",
+    "order": 0,
+    "collapsed": false
+  },
+  "model": "dashboard.userdashboardmodule",
+  "pk": 7
+}, {
+  "fields": {
+    "children": "",
+    "column": 0,
+    "module": "jet.dashboard.dashboard_modules.google_analytics.GoogleAnalyticsVisitorsChart",
+    "user": 1,
+    "title": "Google Analytics visitors chart",
+    "app_label": null,
+    "settings": "{\"counter\": \"108041921\", \"period\": \"6\", \"credential\": \"{\\\"token_expiry\\\": \\\"2015-09-07T15:38:08Z\\\", \\\"invalid\\\": false, \\\"token_response\\\": {\\\"access_token\\\": \\\"ya29.5wFHxkyzZ7dHktzYPnnHsAqwGnjf0oAwvI74mBj1UfNYGjONyq0VdvomzD0EovcYTOcI\\\", \\\"expires_in\\\": 3600, \\\"refresh_token\\\": \\\"1/Ax7O6AvABJNt8y85DqUgx6DvJV2vnnSgvTZbMIPNy8A\\\", \\\"token_type\\\": \\\"Bearer\\\"}, \\\"_class\\\": \\\"OAuth2Credentials\\\", \\\"refresh_token\\\": \\\"1/Ax7O6AvABJNt8y85DqUgx6DvJV2vnnSgvTZbMIPNy8A\\\", \\\"token_uri\\\": \\\"https://accounts.google.com/o/oauth2/token\\\", \\\"user_agent\\\": null, \\\"_module\\\": \\\"oauth2client.client\\\", \\\"client_id\\\": \\\"213559765482-u11oekasrlj9uin7qgd18das6cdas5o1.apps.googleusercontent.com\\\", \\\"revoke_uri\\\": \\\"https://accounts.google.com/o/oauth2/revoke\\\", \\\"access_token\\\": \\\"ya29.5wFHxkyzZ7dHktzYPnnHsAqwGnjf0oAwvI74mBj1UfNYGjONyq0VdvomzD0EovcYTOcI\\\", \\\"client_secret\\\": \\\"RjOsnPPyCOMvskhoIycFph9_\\\", \\\"id_token\\\": null, \\\"token_info_uri\\\": \\\"https://www.googleapis.com/oauth2/v2/tokeninfo\\\", \\\"scopes\\\": [\\\"https://www.googleapis.com/auth/analytics.readonly\\\"]}\", \"group\": \"day\", \"show\": \"ga:users\"}",
+    "order": 0,
+    "collapsed": false
+  },
+  "model": "dashboard.userdashboardmodule",
+  "pk": 8
+}, {
+  "fields": {
+    "children": "",
+    "column": 0,
+    "module": "jet.dashboard.dashboard_modules.google_analytics.GoogleAnalyticsPeriodVisitors",
+    "user": 1,
+    "title": "Google Analytics period visitors",
+    "app_label": null,
+    "settings": "{\"counter\": \"108041921\", \"period\": \"6\", \"credential\": \"{\\\"token_expiry\\\": \\\"2015-09-07T15:38:30Z\\\", \\\"invalid\\\": false, \\\"token_response\\\": {\\\"access_token\\\": \\\"ya29.5wGKSSMBUn359nFSm2tmNivhxp21l00hO7Sf7m9_mq8iaoboivYDrd34HKDxzj7o2GG_\\\", \\\"expires_in\\\": 3600, \\\"refresh_token\\\": \\\"1/rx4pWS5LDMLBiW1BmkQ0CCxfGT7DfPqDicUI80MbgCs\\\", \\\"token_type\\\": \\\"Bearer\\\"}, \\\"_class\\\": \\\"OAuth2Credentials\\\", \\\"refresh_token\\\": \\\"1/rx4pWS5LDMLBiW1BmkQ0CCxfGT7DfPqDicUI80MbgCs\\\", \\\"token_uri\\\": \\\"https://accounts.google.com/o/oauth2/token\\\", \\\"user_agent\\\": null, \\\"_module\\\": \\\"oauth2client.client\\\", \\\"client_id\\\": \\\"213559765482-u11oekasrlj9uin7qgd18das6cdas5o1.apps.googleusercontent.com\\\", \\\"revoke_uri\\\": \\\"https://accounts.google.com/o/oauth2/revoke\\\", \\\"access_token\\\": \\\"ya29.5wGKSSMBUn359nFSm2tmNivhxp21l00hO7Sf7m9_mq8iaoboivYDrd34HKDxzj7o2GG_\\\", \\\"client_secret\\\": \\\"RjOsnPPyCOMvskhoIycFph9_\\\", \\\"id_token\\\": null, \\\"token_info_uri\\\": \\\"https://www.googleapis.com/oauth2/v2/tokeninfo\\\", \\\"scopes\\\": [\\\"https://www.googleapis.com/auth/analytics.readonly\\\"]}\", \"group\": \"day\"}",
+    "order": 1,
+    "collapsed": false
+  },
+  "model": "dashboard.userdashboardmodule",
+  "pk": 9
+}]

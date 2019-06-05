@@ -12,9 +12,6 @@ def get_current_dashboard(location):
 
     module, cls = path.rsplit('.', 1)
 
-    try:
-        module = import_module(module)
-        index_dashboard_cls = getattr(module, cls)
-        return index_dashboard_cls
-    except ImportError:
-        return None
+    module = import_module(module)
+    index_dashboard_cls = getattr(module, cls)
+    return index_dashboard_cls
