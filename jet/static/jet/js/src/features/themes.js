@@ -1,6 +1,6 @@
-import 'jquery.cookie';
+import Cookies from 'js-cookie';
 
-import $, { cookie, each } from 'jquery';
+import $, {each} from 'jquery';
 
 class Themes {
     constructor() { }
@@ -21,7 +21,7 @@ Themes.prototype = {
             
             var $link = $(this);
 
-            cookie('JET_THEME', $link.data('theme'), { expires: 365, path: '/' });
+            Cookies.set('JET_THEME', $link.data('theme'), { expires: 365, path: '/' });
 
             var cssToLoad = [
                 { url: $link.data('base-stylesheet'), class: 'base-stylesheet' },

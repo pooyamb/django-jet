@@ -1,12 +1,11 @@
-import $, { cookie } from 'jquery';
+import PerfectScrollbar from 'perfect-scrollbar';
 import SideBarApplicationPinning from './application-pinning';
 import SideBarBookmarks from './bookmarks';
 import SideBarPopup from './popup';
-
-require('perfect-scrollbar/jquery')($);
+import $ from 'jquery';
 import 'browsernizr/test/touchevents';
 import 'browsernizr';
-import 'jquery.cookie';
+import Cookies from 'js-cookie';
 
 class SideBar {
     constructor($sidebar) {
@@ -17,7 +16,7 @@ class SideBar {
 SideBar.prototype = {
     initScrollBars: function($sidebar) {
         if (!$(document.documentElement).hasClass('touchevents')) {
-            $sidebar.find('.sidebar-wrapper').perfectScrollbar();
+            new PerfectScrollbar($sidebar.find('.sidebar-wrapper')[0])
         }
     },
     initSideBarToggle: function() {
@@ -71,7 +70,7 @@ SideBar.prototype = {
         }).bind(this));
     },
     storePinStatus: function(status) {
-        cookie('sidebar_pinned', status, { expires: 365, path: '/' });
+        Cookies.set('sidebar_pinned', status, { expires: 365, path: '/' });
     },
     addToggleButton: function() {
         var $button = $('<span>')
