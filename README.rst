@@ -30,8 +30,9 @@ TODO
 =====
 High priority
 
+* Flatpickr css does not support themes right now, and month picker dropdown is broken
 * Tests are broken
-* Needs new tests(main repo needs them too!)
+* Needs new tests for python hopefully with some tests for JS(main repo needs them too!)
 * Documentations are obselete right now
 * Fixing some bugs here and there
 Low priority
