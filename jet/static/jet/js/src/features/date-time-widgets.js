@@ -1,9 +1,5 @@
-import $, { datepicker } from 'jquery';
-
-import 'jquery-ui/ui/core';
-import 'jquery-ui/ui/datepicker';
-
-import 'timepicker';
+import $ from 'jquery';
+import flatpickr from "flatpickr";
 
 class DateTimeWidgets {
     constructor() { }
@@ -36,20 +32,24 @@ DateTimeWidgets.prototype = {
         });
 
         $('.form-row .vDateField').each(function () {
-            var $dateField = $(this);
+            var $dateField = $(this)
+                .attr('data-input', '')
+                .wrap('<div class="flatpickr vDateFieldBox"></div>');
             var $dateButton = $('<span>').addClass('icon-calendar');
             $('<a>')
-                .attr('href', '#')
+                .attr('title', 'toggle')
+                .attr('data-toggle', '')
                 .addClass('vDateField-link')
                 .append($dateButton)
                 .insertAfter($dateField);
         });
 
         $('.form-row .vTimeField').each(function () {
-            var $timeField = $(this);
+            var $timeField = $(this).wrap('<div class="flatpickr vTimeFieldBox"></div>');
             var $timeButton = $('<span>').addClass('icon-clock');
             $('<a>')
-                .attr('href', '#')
+                .attr('title', 'toggle')
+                .attr('data-toggle', '')
                 .addClass('vTimeField-link')
                 .append($timeButton)
                 .insertAfter($timeField);
@@ -66,33 +66,22 @@ DateTimeWidgets.prototype = {
 
         var self = this;
 
-        $container.find('.form-row .vDateField').each(function () {
-            var $dateField = $(this);
-            var $dateLink = $dateField.next('.vDateField-link');
+        $container.find('.form-row .vDateFieldBox').each(function () {
+            var $dateFieldBox = $(this);
 
-            $dateField.datepicker({
-                dateFormat: self.djangoDateTimeFormatToJs(DATE_FORMAT),
-                showButtonPanel: true,
-                nextText: '',
-                prevText: ''
-            });
-
-            $dateLink.on('click', function (e) {
-                if ($dateField.datepicker('widget').is(':visible')) {
-                    $dateField.datepicker('hide');
-                } else {
-                    $dateField.datepicker('show');
-                }
-
-                e.preventDefault();
+            flatpickr($dateFieldBox[0] ,{
+                format: self.djangoDateTimeFormatToJs(DATE_FORMAT),
+                allowInput: true,
+                clickOpens: false,
+                wrap: true
             });
         });
 
-        var old_goToToday = datepicker._gotoToday;
-        datepicker._gotoToday = function(id) {
-            old_goToToday.call(this,id);
-            this._selectDate(id);
-        };
+        // var old_goToToday = $.datepicker._gotoToday;
+        // $.datepicker._gotoToday = function(id) {
+        //     old_goToToday.call(this,id);
+        //     this._selectDate(id);
+        // };
     },
     initTimeWidgets: function($container) {
         $container = $container || $(document);
@@ -101,19 +90,18 @@ DateTimeWidgets.prototype = {
             var $timeField = $(this);
             var $timeLink = $timeField.next('.vTimeField-link');
 
-            $timeField.timepicker({
-                showPeriodLabels: false,
-                showCloseButton: true,
-                showNowButton: true
+            var timepicker = flatpickr($timeField[0] ,{
+                enableTime: true,
+                noCalendar: true,
+                enableSeconds: true,
+                dateFormat: "H:i:ss",
+                allowInput: true,
+                clickOpens: false
             });
+            
 
             $timeLink.on('click', function (e) {
-                if ($timeField.datepicker('widget').is(':visible')) {
-                    $timeField.datepicker('hide');
-                } else {
-                    $timeField.timepicker('show');
-                }
-
+                timepicker.open();
                 e.preventDefault();
             });
         });

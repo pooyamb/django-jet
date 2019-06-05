@@ -30,6 +30,7 @@
     "vinyl-source-stream": "2.0.0"
   },
   "dependencies": {
-    "alertify": "^0.3.0"
+    "alertify": "^0.3.0",
+    "flatpickr": "^4.6.1"
   }
 }
