@@ -690,10 +690,10 @@ ajv@^6.5.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-alertify@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/alertify/-/alertify-0.3.0.tgz#32ada3298ff4d91ace71f2746d70910a7bd08135"
-  integrity sha1-Mq2jKY/02RrOcfJ0bXCRCnvQgTU=
+alertifyjs@^1.11.3:
+  version "1.11.3"
+  resolved "https://registry.yarnpkg.com/alertifyjs/-/alertifyjs-1.11.3.tgz#39ebaec9128e225903983fe36292e0c4860153a1"
+  integrity sha512-hhTb9oMwgLXm8F3kX+CTTETNmMtBX9X5C8ImVs0CgrK9THjY89zHKxPbHc2GGOrabr9HqKprSmpsgUq9Ij75Pg==
 
 amdefine@>=0.0.4:
   version "1.0.1"

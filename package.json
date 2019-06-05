@@ -3,7 +3,7 @@
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
-    "alertify": "^0.3.0",
+    "alertifyjs": "^1.11.3",
     "autoprefixer": "6.4.0",
     "babelify": "^10.0.0",
     "browserify": "13.0.1",
