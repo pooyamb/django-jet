@@ -1,5 +1,6 @@
 @import "../globals";
-@import "../../../../node_modules/select2/src/scss/core.scss";
+@import "node_modules/select2/src/scss/core.scss";
+
 
 .select2-container--jet {
   @import "single";
