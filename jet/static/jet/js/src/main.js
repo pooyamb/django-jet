@@ -32,7 +32,7 @@ import './features/touchmove-non-scrollable';
 
 window.jQuery = jquery;
 window.$ = jquery;
-if(!('django' in window)){
-    django = {}
+if(typeof(django) == 'undefined'){
+    django = {};
 }
 django.jQuery = jquery;
