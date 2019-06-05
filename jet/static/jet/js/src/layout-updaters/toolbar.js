@@ -1,8 +1,10 @@
-var $ = require('jquery');
+import $, { each } from 'jquery';
 
-var ToolbarUpdater = function($changelist) {
-    this.$changelist = $changelist;
-};
+class ToolbarUpdater {
+    constructor($changelist) {
+        this.$changelist = $changelist;
+    }
+}
 
 ToolbarUpdater.prototype = {
     getToolbar: function($changelist) {
@@ -32,7 +34,7 @@ ToolbarUpdater.prototype = {
                 var $select = $('<select>');
                 var $items = $element.find('li');
 
-                $.each($element.prop('attributes'), function() {
+                each($element.prop('attributes'), function() {
                     $select.attr(this.name, this.value);
                 });
 
@@ -111,7 +113,7 @@ ToolbarUpdater.prototype = {
         $('#content-main').each(function() {
             var $content = $(this);
 
-            $.each(['#toolbar', '.object-tools', 'changeform-navigation'], function(i, selector) {
+            each(['#toolbar', '.object-tools', 'changeform-navigation'], function(i, selector) {
                 var $element = $content.find(selector).first();
 
                 if ($element.length == 0) {

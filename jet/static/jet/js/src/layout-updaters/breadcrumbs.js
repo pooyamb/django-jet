@@ -1,8 +1,10 @@
-var $ = require('jquery');
+import $ from 'jquery';
 
-var BreadcrumbsUpdater = function($breadcrumbs) {
-    this.$breadcrumbs = $breadcrumbs;
-};
+class BreadcrumbsUpdater {
+    constructor($breadcrumbs) {
+        this.$breadcrumbs = $breadcrumbs;
+    }
+}
 
 BreadcrumbsUpdater.prototype = {
     replaceSeparators: function($breadcrumbs) {

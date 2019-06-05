@@ -1,9 +1,11 @@
-var $ = require('jquery');
-var t = require('../utils/translate');
+import $, { each } from 'jquery';
+import t from '../utils/translate';
 
-var ChangeFormTabsUpdater = function($changeform) {
-    this.$changeform = $changeform;
-};
+class ChangeFormTabsUpdater {
+    constructor($changeform) {
+        this.$changeform = $changeform;
+    }
+}
 
 ChangeFormTabsUpdater.prototype = {
     findTabs: function($modules, $inlines) {
@@ -48,7 +50,7 @@ ChangeFormTabsUpdater.prototype = {
 
         var $tabs = $('<ul>').addClass('changeform-tabs');
 
-        $.each(tabs, function() {
+        each(tabs, function() {
             var tab = this;
             var $item = $('<li>')
                 .addClass('changeform-tabs-item');

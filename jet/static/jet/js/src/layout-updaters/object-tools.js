@@ -1,8 +1,10 @@
-var $ = require('jquery');
+import $ from 'jquery';
 
-var ObjectToolsUpdater = function($objectTools) {
-    this.$objectTools = $objectTools;
-};
+class ObjectToolsUpdater {
+    constructor($objectTools) {
+        this.$objectTools = $objectTools;
+    }
+}
 
 ObjectToolsUpdater.prototype = {
     run: function() {

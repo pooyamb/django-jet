@@ -1,8 +1,10 @@
-var $ = require('jquery');
+import $ from 'jquery';
 
-var StackedInlineUpdater = function($inline) {
-    this.$inline = $inline;
-};
+class StackedInlineUpdater {
+    constructor($inline) {
+        this.$inline = $inline;
+    }
+}
 
 StackedInlineUpdater.prototype = {
     updateObjectLinks: function() {

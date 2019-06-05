@@ -1,6 +1,8 @@
-var $ = require('jquery');
+import $ from 'jquery';
 
-var DeleteConfirmationUpdater = function() { };
+class DeleteConfirmationUpdater {
+    constructor() { }
+}
 
 DeleteConfirmationUpdater.prototype = {
     run: function() {

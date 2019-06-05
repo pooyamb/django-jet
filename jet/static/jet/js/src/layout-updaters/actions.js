@@ -1,8 +1,10 @@
-var $ = require('jquery');
+import $ from 'jquery';
 
-var ActionsUpdater = function($changelist) {
-    this.$changelist = $changelist;
-};
+class ActionsUpdater {
+    constructor($changelist) {
+        this.$changelist = $changelist;
+    }
+}
 
 ActionsUpdater.prototype = {
     removeLabel: function($actions) {

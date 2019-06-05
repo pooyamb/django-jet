@@ -1,11 +1,13 @@
-var $ = require('jquery');
+import $ from 'jquery';
 
-require('browsernizr/test/touchevents');
-require('browsernizr');
+import 'browsernizr/test/touchevents';
+import 'browsernizr';
 
-var UserToolsUpdater = function($usertools) {
-    this.$usertools = $usertools;
-};
+class UserToolsUpdater {
+    constructor($usertools) {
+        this.$usertools = $usertools;
+    }
+}
 
 UserToolsUpdater.prototype = {
     updateUserTools: function($usertools) {

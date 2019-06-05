@@ -1,8 +1,10 @@
-var $ = require('jquery');
+import $ from 'jquery';
 
-var TabularInlineUpdater = function($inline) {
-    this.$inline = $inline;
-};
+class TabularInlineUpdater {
+    constructor($inline) {
+        this.$inline = $inline;
+    }
+}
 
 TabularInlineUpdater.prototype = {
     updateOriginalCell: function() {

@@ -1,6 +1,8 @@
-var $ = require('jquery');
+import $ from 'jquery';
 
-var Icons = function() { };
+class Icons {
+    constructor() { }
+}
 
 Icons.prototype = {
     updateBooleanIcons: function() {

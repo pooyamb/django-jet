@@ -1,6 +1,8 @@
-var $ = require('jquery');
+import $ from 'jquery';
 
-var RelatedWidgetWrapperUpdater = function() { };
+class RelatedWidgetWrapperUpdater {
+    constructor() { }
+}
 
 RelatedWidgetWrapperUpdater.prototype = {
     replaceLinkIcon: function(selector) {

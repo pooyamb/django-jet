@@ -1,8 +1,10 @@
-var $ = require('jquery');
+import $ from 'jquery';
 
-var BrandingUpdater = function($branding) {
-    this.$branding = $branding;
-};
+class BrandingUpdater {
+    constructor($branding) {
+        this.$branding = $branding;
+    }
+}
 
 BrandingUpdater.prototype = {
     move: function($branding) {
