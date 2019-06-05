@@ -133,25 +133,15 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
-        "verbose": {
-            "format": "%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s"
-        },
+        "verbose": {"format": "%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s"},
         "simple": {"format": "%(levelname)s %(message)s"},
     },
     "handlers": {
-        "mail_admins": {
-            "level": "ERROR",
-            "class": "django.utils.log.AdminEmailHandler",
-            "include_html": True,
-        }
+        "mail_admins": {"level": "ERROR", "class": "django.utils.log.AdminEmailHandler", "include_html": True}
     },
     "loggers": {
         "django": {"handlers": ["mail_admins"], "propagate": True, "level": "INFO"},
-        "django.request": {
-            "handlers": ["mail_admins"],
-            "level": "ERROR",
-            "propagate": False,
-        },
+        "django.request": {"handlers": ["mail_admins"], "level": "ERROR", "propagate": False},
     },
 }
 
@@ -171,10 +161,7 @@ JET_APP_INDEX_DASHBOARD = "dashboard.CustomAppIndexDashboard"
 
 JET_MODULE_YANDEX_METRIKA_CLIENT_ID = "46de85bff0f94c82bbf42be177f128a2"
 JET_MODULE_YANDEX_METRIKA_CLIENT_SECRET = "01107ac1049b49ab9b24e60e95ba2a93"
-JET_MODULE_GOOGLE_ANALYTICS_CLIENT_SECRETS_FILE = os.path.join(
-    PROJECT_DIR, "client_secrets.json"
-)
-
+JET_MODULE_GOOGLE_ANALYTICS_CLIENT_SECRETS_FILE = os.path.join(PROJECT_DIR, "demo/client_secrets.json")
 # CKEditor
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
