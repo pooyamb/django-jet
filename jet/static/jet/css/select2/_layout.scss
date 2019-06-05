@@ -1,4 +1,5 @@
 @import "../globals";
+@import "../../../../node_modules/select2/src/scss/core.scss";
 
 .select2-container--jet {
   @import "single";
@@ -35,7 +36,10 @@
     padding: 6px;
 
     &-button {
-      &, &:visited, &:hover {
+
+      &,
+      &:visited,
+      &:hover {
         color: $input-contrast-text-color;
         margin-left: 10px;
       }
@@ -56,6 +60,8 @@
     box-shadow: 0 0 4px 0 $input-shadow-color;
     overflow: hidden;
     z-index: 1;
+    background-color: $input-background-color;
+    border: 1px solid $input-border-color;
 
     &--below {
       top: -$input-height;
@@ -95,7 +101,7 @@
     }
   }
 
-  .select2-results > .select2-results__options {
+  .select2-results>.select2-results__options {
     max-height: 200px;
     overflow-y: auto;
   }

@@ -56,7 +56,9 @@
 
 &[dir="rtl"] {
   .select2-selection--multiple {
-    .select2-selection__choice, .select2-selection__placeholder {
+
+    .select2-selection__choice,
+    .select2-selection__placeholder {
       float: right;
     }
 
