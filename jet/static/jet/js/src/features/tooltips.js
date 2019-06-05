@@ -1,9 +1,5 @@
 import $ from 'jquery';
-
-import 'jquery-ui/ui/core';
-import 'jquery-ui/ui/position';
-import 'jquery-ui/ui/widget';
-import 'jquery-ui/ui/tooltip';
+import 'tooltipster'
 import 'browsernizr/test/touchevents';
 import 'browsernizr';
 
@@ -14,9 +10,7 @@ class Tooltips {
 Tooltips.prototype = {
     initTooltips: function() {
         if (!$(document.documentElement).hasClass('touchevents')) {
-            $('a[title], .tooltip[title]').tooltip({
-                track: true
-            });
+            $('a[title], .tooltip[title]').tooltipster();
         }
     },
     run: function() {

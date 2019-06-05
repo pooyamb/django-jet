@@ -20,6 +20,7 @@
     "gulp-sourcemaps": "2.6.5",
     "gulp-uglify": "3.0.2",
     "jquery": "1.11.3",
+    "jquery-sortablejs": "^1.0.1",
     "jquery.mousewheel": "3.1.9",
     "js-cookie": "^2.2.0",
     "merge-stream": "1.0.0",
@@ -27,6 +28,7 @@
     "postcss-pxtorem": "3.3.1",
     "select2": "4.0.0",
     "timepicker": "git://github.com/geex-arts/timepicker",
+    "tooltipster": "^4.2.6",
     "vinyl-buffer": "1.0.1",
     "vinyl-source-stream": "2.0.0"
   }
