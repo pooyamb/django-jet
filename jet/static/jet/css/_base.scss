@@ -4,7 +4,8 @@
 
 @import "globals";
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
@@ -55,7 +56,9 @@ body {
   }
 
   @include for-mobile {
-    &, body.menu-pinned & {
+
+    &,
+    body.menu-pinned & {
       padding-left: 0;
     }
   }
@@ -72,7 +75,7 @@ body {
     padding: 10px;
   }
 
-  & > h1 {
+  &>h1 {
     display: none;
   }
 }
@@ -154,8 +157,8 @@ body {
   width: auto;
 }
 
-@import "jquery-ui/jquery-ui.theme";
 @import "select2/layout";
+@import "flatpickr/layout";
 @import "content";
 @import "forms";
 @import "tables";
