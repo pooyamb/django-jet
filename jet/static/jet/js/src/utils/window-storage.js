@@ -1,12 +1,13 @@
-var $ = require('jquery');
+import { isArray } from 'jquery';
 
-var WindowStorage = function(name) {
-    if (window.top[name] == undefined) {
-        window.top[name] = [];
+class WindowStorage {
+    constructor(name) {
+        if (window.top[name] == undefined) {
+            window.top[name] = [];
+        }
+        this.name = name;
     }
-
-    this.name = name;
-};
+}
 
 WindowStorage.prototype = {
     push: function(window) {
@@ -21,7 +22,7 @@ WindowStorage.prototype = {
     },
     previous: function() {
         if (window.top[this.name] == undefined
-            || !$.isArray(window.top[this.name])
+            || !isArray(window.top[this.name])
             || window.top[this.name].length < 2) {
             return null;
         }
@@ -29,4 +30,4 @@ WindowStorage.prototype = {
     }
 };
 
-module.exports = WindowStorage;
+export default WindowStorage;

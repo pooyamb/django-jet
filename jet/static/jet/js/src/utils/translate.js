@@ -1,4 +1,4 @@
-module.exports = function(str) {
+export default function(str) {
     if (window.django == undefined) {
         return str;
     }
