@@ -27,6 +27,7 @@
     "perfect-scrollbar": "git://github.com/noraesae/perfect-scrollbar#0.6.5",
     "postcss-pxtorem": "3.3.1",
     "select2": "4.0.0",
+    "sortablejs": "^1.9.0",
     "timepicker": "git://github.com/geex-arts/timepicker",
     "tooltipster": "^4.2.6",
     "vinyl-buffer": "1.0.1",
