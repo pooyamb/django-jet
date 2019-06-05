@@ -1,9 +1,11 @@
-var $ = require('jquery');
-var CompactInline = require('./compact-inline');
+import $ from 'jquery';
+import CompactInline from './compact-inline';
 
-var Inline = function($inline) {
-    this.$inline = $inline;
-};
+class Inline {
+    constructor($inline) {
+        this.$inline = $inline;
+    }
+}
 
 Inline.prototype = {
     initAddRow: function($inline) {

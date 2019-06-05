@@ -1,8 +1,10 @@
-var $ = require('jquery');
+import $ from 'jquery';
 
-var Siblings = function($siblings) {
-    this.$siblings = $siblings;
-};
+class Siblings {
+    constructor($siblings) {
+        this.$siblings = $siblings;
+    }
+}
 
 Siblings.prototype = {
     moveSiblings: function($siblings) {

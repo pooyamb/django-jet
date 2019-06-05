@@ -1,6 +1,8 @@
-var $ = require('jquery');
+import $ from 'jquery';
 
-var TouchMoveNonScrollable = function() { };
+class TouchMoveNonScrollable {
+    constructor() { }
+}
 
 TouchMoveNonScrollable.prototype = {
     initTouchMoveHandler: function() {

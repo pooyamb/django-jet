@@ -1,6 +1,8 @@
-var $ = require('jquery');
+import $ from 'jquery';
 
-var ScrollToBottomDetector = function() { };
+class ScrollToBottomDetector {
+    constructor() { }
+}
 
 ScrollToBottomDetector.prototype = {
     prevScrollTop: null,

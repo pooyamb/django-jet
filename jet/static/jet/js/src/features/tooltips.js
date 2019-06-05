@@ -1,13 +1,15 @@
-var $ = require('jquery');
+import $ from 'jquery';
 
-require('jquery-ui/ui/core');
-require('jquery-ui/ui/position');
-require('jquery-ui/ui/widget');
-require('jquery-ui/ui/tooltip');
-require('browsernizr/test/touchevents');
-require('browsernizr');
+import 'jquery-ui/ui/core';
+import 'jquery-ui/ui/position';
+import 'jquery-ui/ui/widget';
+import 'jquery-ui/ui/tooltip';
+import 'browsernizr/test/touchevents';
+import 'browsernizr';
 
-var Tooltips = function() { };
+class Tooltips {
+    constructor() { }
+}
 
 Tooltips.prototype = {
     initTooltips: function() {

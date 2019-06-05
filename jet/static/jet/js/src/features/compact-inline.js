@@ -1,11 +1,13 @@
-var $ = require('jquery');
+import $, { each } from 'jquery';
 
-var CompactInline = function($inline) {
-    this.$inline = $inline;
-    this.prefix = $inline.data('inline-prefix');
-    this.verboseName = $inline.data('inline-verbose-name');
-    this.deleteText = $inline.data('inline-delete-text');
-};
+class CompactInline {
+    constructor($inline) {
+        this.$inline = $inline;
+        this.prefix = $inline.data('inline-prefix');
+        this.verboseName = $inline.data('inline-verbose-name');
+        this.deleteText = $inline.data('inline-delete-text');
+    }
+}
 
 CompactInline.prototype = {
     updateLabels: function($inline) {
@@ -30,7 +32,7 @@ CompactInline.prototype = {
         $form.find('*').each(function() {
             var $el = $(this);
 
-            $.each(['for', 'id', 'name'], function() {
+            each(['for', 'id', 'name'], function() {
                 var attr = this;
 
                 if ($el.attr(attr)) {
@@ -189,4 +191,4 @@ CompactInline.prototype = {
     }
 };
 
-module.exports = CompactInline;
+export default CompactInline;

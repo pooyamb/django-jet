@@ -1,8 +1,10 @@
-var $ = require('jquery');
+import $, { proxy } from 'jquery';
 
-var ChangeList = function($changelist) {
-    this.$changelist = $changelist;
-};
+class ChangeList {
+    constructor($changelist) {
+        this.$changelist = $changelist;
+    }
+}
 
 ChangeList.prototype = {
     updateFixedHeaderVisibility: function($fixedTable, $originalHeader) {
@@ -30,8 +32,8 @@ ChangeList.prototype = {
         $fixedTable.find('.action-checkbox-column').empty();
         $fixedTable.appendTo(document.body);
 
-        $(window).on('scroll', $.proxy(this.updateFixedHeaderVisibility, this, $fixedTable, $originalHeader));
-        $(window).on('resize', $.proxy(this.updateFixedHeaderWidth, this, $fixedHeader, $originalHeader));
+        $(window).on('scroll', proxy(this.updateFixedHeaderVisibility, this, $fixedTable, $originalHeader));
+        $(window).on('resize', proxy(this.updateFixedHeaderWidth, this, $fixedHeader, $originalHeader));
 
         this.updateFixedHeaderWidth($fixedHeader, $originalHeader);
     },
@@ -60,8 +62,8 @@ ChangeList.prototype = {
             return;
         }
 
-        $(window).on('scroll', $.proxy(this.updateFixedFooter, this, $results, $footer));
-        $(window).on('resize', $.proxy(this.updateFixedFooter, this, $results, $footer));
+        $(window).on('scroll', proxy(this.updateFixedFooter, this, $results, $footer));
+        $(window).on('resize', proxy(this.updateFixedFooter, this, $results, $footer));
 
         this.updateFixedFooter($results, $footer);
     },

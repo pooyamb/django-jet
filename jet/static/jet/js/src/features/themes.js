@@ -1,8 +1,10 @@
-require('jquery.cookie');
+import 'jquery.cookie';
 
-var $ = require('jquery');
+import $, { cookie, each } from 'jquery';
 
-var Themes = function() { };
+class Themes {
+    constructor() { }
+}
 
 Themes.prototype = {
     moveChooser: function($chooser) {
@@ -19,7 +21,7 @@ Themes.prototype = {
             
             var $link = $(this);
 
-            $.cookie('JET_THEME', $link.data('theme'), { expires: 365, path: '/' });
+            cookie('JET_THEME', $link.data('theme'), { expires: 365, path: '/' });
 
             var cssToLoad = [
                 { url: $link.data('base-stylesheet'), class: 'base-stylesheet' },
@@ -37,7 +39,7 @@ Themes.prototype = {
                 }
             };
 
-            $.each(cssToLoad, function() {
+            each(cssToLoad, function() {
                 $('<link>')
                     .attr('rel', 'stylesheet')
                     .addClass(this['class'])

@@ -1,18 +1,20 @@
-require('./../../utils/jquery-slidefade');
+import './../../utils/jquery-slidefade';
 
-var $ = require('jquery');
+import $, { ajax } from 'jquery';
 
-require('jquery-ui/ui/core');
-require('jquery-ui/ui/widget');
-require('jquery-ui/ui/mouse');
-require('jquery-ui/ui/draggable');
-require('jquery-ui/ui/resizable');
-require('jquery-ui/ui/button');
-require('jquery-ui/ui/dialog');
+import 'jquery-ui/ui/core';
+import 'jquery-ui/ui/widget';
+import 'jquery-ui/ui/mouse';
+import 'jquery-ui/ui/draggable';
+import 'jquery-ui/ui/resizable';
+import 'jquery-ui/ui/button';
+import 'jquery-ui/ui/dialog';
 
-var SideBarApplicationPinning = function($sidebar) {
-    this.$sidebar = $sidebar;
-};
+class SideBarApplicationPinning {
+    constructor($sidebar) {
+        this.$sidebar = $sidebar;
+    }
+}
 
 SideBarApplicationPinning.prototype = {
     pinToggle: function($form, $sidebar, $appItem) {
@@ -20,7 +22,7 @@ SideBarApplicationPinning.prototype = {
         var $appsList = $sidebar.find('.apps-list');
         var $pinnedAppsList = $sidebar.find('.apps-list-pinned');
 
-        $.ajax({
+        ajax({
             url: $form.attr('action'),
             method: $form.attr('method'),
             dataType: 'json',
@@ -109,4 +111,4 @@ SideBarApplicationPinning.prototype = {
     }
 };
 
-module.exports = SideBarApplicationPinning;
+export default SideBarApplicationPinning;

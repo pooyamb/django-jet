@@ -1,8 +1,10 @@
-var $ = require('jquery');
+import $ from 'jquery';
 
-var ChangeFormTabs = function($changeform) {
-    this.$changeform = $changeform;
-};
+class ChangeFormTabs {
+    constructor($changeform) {
+        this.$changeform = $changeform;
+    }
+}
 
 ChangeFormTabs.prototype = {
     getContentWrappers: function() {

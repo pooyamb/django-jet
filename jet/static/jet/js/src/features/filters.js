@@ -1,8 +1,10 @@
-var $ = require('jquery');
+import $ from 'jquery';
 
-var Filters = function($toolbar) {
-    this.$toolbar = $toolbar;
-};
+class Filters {
+    constructor($toolbar) {
+        this.$toolbar = $toolbar;
+    }
+}
 
 Filters.prototype = {
     initFiltersInteraction: function($toolbar) {

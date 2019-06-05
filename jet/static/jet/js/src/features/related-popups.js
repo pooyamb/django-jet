@@ -1,9 +1,11 @@
-var $ = require('jquery');
-var WindowStorage = require('../utils/window-storage');
+import $ from 'jquery';
+import WindowStorage from '../utils/window-storage';
 
-var RelatedPopups = function() {
-    this.windowStorage = new WindowStorage('relatedWindows');
-};
+class RelatedPopups {
+    constructor() {
+        this.windowStorage = new WindowStorage('relatedWindows');
+    }
+}
 
 RelatedPopups.prototype = {
     updateLinks: function($select) {

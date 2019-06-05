@@ -1,9 +1,11 @@
-var $ = require('jquery');
-var t = require('../utils/translate');
+import $, { proxy } from 'jquery';
+import t from '../utils/translate';
 
-var ChangeForm = function($changeForm) {
-    this.$changeForm = $changeForm;
-};
+class ChangeForm {
+    constructor($changeForm) {
+        this.$changeForm = $changeForm;
+    }
+}
 
 ChangeForm.prototype = {
     changeDetected: false,
@@ -33,7 +35,7 @@ ChangeForm.prototype = {
             $(window).off('beforeunload', self.onWindowBeforeUnload);
         });
 
-        $inputs.on('change', $.proxy(this.onFormInputChanged, this, $inputs));
+        $inputs.on('change', proxy(this.onFormInputChanged, this, $inputs));
     },
     run: function() {
         try {

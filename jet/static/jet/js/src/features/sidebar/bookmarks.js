@@ -1,21 +1,23 @@
-var $ = require('jquery');
-var t = require('../../utils/translate');
+import $, { ajax } from 'jquery';
+import t from '../../utils/translate';
 
-require('jquery-ui/ui/core');
-require('jquery-ui/ui/widget');
-require('jquery-ui/ui/mouse');
-require('jquery-ui/ui/draggable');
-require('jquery-ui/ui/resizable');
-require('jquery-ui/ui/button');
-require('jquery-ui/ui/dialog');
+import 'jquery-ui/ui/core';
+import 'jquery-ui/ui/widget';
+import 'jquery-ui/ui/mouse';
+import 'jquery-ui/ui/draggable';
+import 'jquery-ui/ui/resizable';
+import 'jquery-ui/ui/button';
+import 'jquery-ui/ui/dialog';
 
-var SideBarBookmarks = function($sidebar) {
-    this.$sidebar = $sidebar;
-};
+class SideBarBookmarks {
+    constructor($sidebar) {
+        this.$sidebar = $sidebar;
+    }
+}
 
 SideBarBookmarks.prototype = {
     addBookmark: function($form, $container) {
-        $.ajax({
+        ajax({
             url: $form.attr('action'),
             method: $form.attr('method'),
             dataType: 'json',
@@ -43,7 +45,7 @@ SideBarBookmarks.prototype = {
         });
     },
     deleteBookmark: function($form, $item) {
-        $.ajax({
+        ajax({
             url: $form.attr('action'),
             method: $form.attr('method'),
             dataType: 'json',
@@ -140,4 +142,4 @@ SideBarBookmarks.prototype = {
     }
 };
 
-module.exports = SideBarBookmarks;
+export default SideBarBookmarks;

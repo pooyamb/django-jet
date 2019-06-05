@@ -1,35 +1,38 @@
-var $ = window.jQuery = require('jquery');
+import jquery from 'jquery';
 
-jet = {
-    jQuery: $
-};
+import './layout-updaters/actions';
+import './layout-updaters/breadcrumbs';
+import './layout-updaters/paginator';
+import './layout-updaters/toolbar';
+import './layout-updaters/object-tools';
+import './layout-updaters/user-tools';
+import './layout-updaters/changeform-tabs';
+import './layout-updaters/tabular-inline';
+import './layout-updaters/stacked-inline';
+import './layout-updaters/related-widget-wrapper';
+import './layout-updaters/delete-confirmation';
+import './layout-updaters/branding';
+import './layout-updaters/icons';
+import './features/sidebar/main';
+import './features/filters';
+import './features/changeform-tabs';
+import './features/checkboxes';
+// import './features/date-time-widgets';
+import './features/inlines';
+import './features/changelist';
+// import './features/tooltips';
+// import './features/dashboard';
+// import './features/changeform';
+// import './features/themes';
+// import './features/siblings';
+// import './features/selects';
+// import './features/related-popups';
+// import './features/scroll-to-bottom-detector';
+// import './features/touchmove-non-scrollable';
 
-require('./layout-updaters/actions');
-require('./layout-updaters/breadcrumbs');
-require('./layout-updaters/paginator');
-require('./layout-updaters/toolbar');
-require('./layout-updaters/object-tools');
-require('./layout-updaters/user-tools');
-require('./layout-updaters/changeform-tabs');
-require('./layout-updaters/tabular-inline');
-require('./layout-updaters/stacked-inline');
-require('./layout-updaters/related-widget-wrapper');
-require('./layout-updaters/delete-confirmation');
-require('./layout-updaters/branding');
-require('./layout-updaters/icons');
-require('./features/sidebar/main');
-require('./features/filters');
-require('./features/changeform-tabs');
-require('./features/checkboxes');
-require('./features/date-time-widgets');
-require('./features/inlines');
-require('./features/changelist');
-require('./features/tooltips');
-require('./features/dashboard');
-require('./features/changeform');
-require('./features/themes');
-require('./features/siblings');
-require('./features/selects');
-require('./features/related-popups');
-require('./features/scroll-to-bottom-detector');
-require('./features/touchmove-non-scrollable');
+window.jQuery = jquery;
+window.$ = jquery;
+if(!('django' in window)){
+    django = {}
+}
+django.jQuery = jquery;

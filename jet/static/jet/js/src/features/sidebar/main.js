@@ -1,16 +1,18 @@
-var $ = require('jquery');
-var SideBarApplicationPinning = require('./application-pinning');
-var SideBarBookmarks = require('./bookmarks');
-var SideBarPopup = require('./popup');
+import $, { cookie } from 'jquery';
+import SideBarApplicationPinning from './application-pinning';
+import SideBarBookmarks from './bookmarks';
+import SideBarPopup from './popup';
 
 require('perfect-scrollbar/jquery')($);
-require('browsernizr/test/touchevents');
-require('browsernizr');
-require('jquery.cookie');
+import 'browsernizr/test/touchevents';
+import 'browsernizr';
+import 'jquery.cookie';
 
-var SideBar = function($sidebar) {
-    this.$sidebar = $sidebar;
-};
+class SideBar {
+    constructor($sidebar) {
+        this.$sidebar = $sidebar;
+    }
+}
 
 SideBar.prototype = {
     initScrollBars: function($sidebar) {
@@ -69,7 +71,7 @@ SideBar.prototype = {
         }).bind(this));
     },
     storePinStatus: function(status) {
-        $.cookie('sidebar_pinned', status, { expires: 365, path: '/' });
+        cookie('sidebar_pinned', status, { expires: 365, path: '/' });
     },
     addToggleButton: function() {
         var $button = $('<span>')
@@ -103,4 +105,4 @@ $(document).ready(function() {
     });
 });
 
-module.exports = new SideBar();
+export default new SideBar();

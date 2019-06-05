@@ -1,13 +1,15 @@
-require('../../utils/jquery-icontains');
+import '../../utils/jquery-icontains';
 
-var $ = require('jquery');
+import $ from 'jquery';
 
-require('browsernizr/test/touchevents');
-require('browsernizr');
+import 'browsernizr/test/touchevents';
+import 'browsernizr';
 
-var SideBarPopup = function($sidebar) {
-    this.$sidebar = $sidebar;
-};
+class SideBarPopup {
+    constructor($sidebar) {
+        this.$sidebar = $sidebar;
+    }
+}
 
 SideBarPopup.prototype = {
     popupDisplayTimeout: null,
@@ -216,4 +218,4 @@ SideBarPopup.prototype = {
     }
 };
 
-module.exports = SideBarPopup;
+export default SideBarPopup;

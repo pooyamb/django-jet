@@ -1,9 +1,11 @@
-require('select2');
+import 'select2';
 
-var $ = require('jquery');
-var t = require('../utils/translate');
+import $, { fn } from 'jquery';
+import t from '../utils/translate';
 
-var Select2 = function() { };
+class Select2 {
+    constructor() { }
+}
 
 Select2.prototype = {
     updateAttachBody: function(AttachBody) {
@@ -197,12 +199,12 @@ Select2.prototype = {
     },
     initSelect2: function() {
         var self = this;
-        var AttachBody = $.fn.select2.amd.require('select2/dropdown/attachBody');
-        var DropdownAdapter = $.fn.select2.amd.require('select2/dropdown');
-        var Utils = $.fn.select2.amd.require('select2/utils');
-        var DropdownSearch = $.fn.select2.amd.require('select2/dropdown/search');
-        var MinimumResultsForSearch = $.fn.select2.amd.require('select2/dropdown/minimumResultsForSearch');
-        var closeOnSelect = $.fn.select2.amd.require('select2/dropdown/closeOnSelect');
+        var AttachBody = fn.select2.amd.require('select2/dropdown/attachBody');
+        var DropdownAdapter = fn.select2.amd.require('select2/dropdown');
+        var Utils = fn.select2.amd.require('select2/utils');
+        var DropdownSearch = fn.select2.amd.require('select2/dropdown/search');
+        var MinimumResultsForSearch = fn.select2.amd.require('select2/dropdown/minimumResultsForSearch');
+        var closeOnSelect = fn.select2.amd.require('select2/dropdown/closeOnSelect');
 
         this.updateAttachBody(AttachBody);
         this.updateDropdownAdapter(DropdownAdapter);

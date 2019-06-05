@@ -1,21 +1,23 @@
-require('./../utils/jquery-slidefade');
+import './../utils/jquery-slidefade';
 
-var $ = require('jquery');
-var t = require('../utils/translate');
+import $, { ajax, each } from 'jquery';
+import t from '../utils/translate';
 
-require('jquery-ui/ui/core');
-require('jquery-ui/ui/widget');
-require('jquery-ui/ui/mouse');
-require('jquery-ui/ui/draggable');
-require('jquery-ui/ui/droppable');
-require('jquery-ui/ui/sortable');
-require('jquery-ui/ui/resizable');
-require('jquery-ui/ui/button');
-require('jquery-ui/ui/dialog');
+import 'jquery-ui/ui/core';
+import 'jquery-ui/ui/widget';
+import 'jquery-ui/ui/mouse';
+import 'jquery-ui/ui/draggable';
+import 'jquery-ui/ui/droppable';
+import 'jquery-ui/ui/sortable';
+import 'jquery-ui/ui/resizable';
+import 'jquery-ui/ui/button';
+import 'jquery-ui/ui/dialog';
 
-var Dashboard = function($dashboard) {
-    this.$dashboard = $dashboard;
-};
+class Dashboard {
+    constructor($dashboard) {
+        this.$dashboard = $dashboard;
+    }
+}
 
 Dashboard.prototype = {
     initTools: function($dashboard) {
@@ -33,7 +35,7 @@ Dashboard.prototype = {
             if (type) {
                 $typeInput.val(type);
 
-                $.ajax({
+                ajax({
                     url: $form.attr('action'),
                     method: $form.attr('method'),
                     dataType: 'json',
@@ -56,7 +58,7 @@ Dashboard.prototype = {
             var resetDashboard = function () {
                 var $form = $dashboard.find('#reset-dashboard-form');
 
-                $.ajax({
+                ajax({
                     url: $form.attr('action'),
                     method: $form.attr('method'),
                     dataType: 'json',
@@ -112,7 +114,7 @@ Dashboard.prototype = {
 
         $form.find('[name="modules"]').val(JSON.stringify(modules));
 
-        $.ajax({
+        ajax({
             url: $form.attr('action'),
             method: $form.attr('method'),
             dataType: 'json',
@@ -164,7 +166,7 @@ Dashboard.prototype = {
                     $form.find('[name="id"]').val(moduleId);
                     $form.find('[name="collapsed"]').val(collapsed ? 'true' : 'false');
 
-                    $.ajax({
+                    ajax({
                         url: $form.attr('action'),
                         method: $form.attr('method'),
                         dataType: 'json',
@@ -191,7 +193,7 @@ Dashboard.prototype = {
                     $item.fadeOut(200, 'swing', function () {
                         $form.find('[name="id"]').val(moduleId);
 
-                        $.ajax({
+                        ajax({
                             url: $form.attr('action'),
                             method: $form.attr('method'),
                             dataType: 'json',
@@ -223,7 +225,7 @@ Dashboard.prototype = {
             var $content = $item.find('.dashboard-item-content');
             var url = $item.data('ajax-url');
 
-            $.ajax({
+            ajax({
                 url: url,
                 dataType: 'json',
                 success: function (result) {
@@ -262,7 +264,7 @@ Dashboard.prototype = {
         $form.find("fieldset.module *").each(function() {
             var $el = $(this);
 
-            $.each(['for', 'id', 'name'], function() {
+            each(['for', 'id', 'name'], function() {
                 var attr = this;
 
                 if ($el.attr(attr)) {

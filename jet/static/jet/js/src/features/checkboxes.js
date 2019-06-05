@@ -1,6 +1,8 @@
-var $ = require('jquery');
+import $ from 'jquery';
 
-var Checkboxes = function() { };
+class Checkboxes {
+    constructor() { }
+}
 
 Checkboxes.prototype = {
     uniqueCheckboxIdCounter: 0,

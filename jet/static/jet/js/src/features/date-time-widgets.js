@@ -1,11 +1,13 @@
-var $ = require('jquery');
+import $, { datepicker } from 'jquery';
 
-require('jquery-ui/ui/core');
-require('jquery-ui/ui/datepicker');
+import 'jquery-ui/ui/core';
+import 'jquery-ui/ui/datepicker';
 
-require('timepicker');
+import 'timepicker';
 
-var DateTimeWidgets = function() { };
+class DateTimeWidgets {
+    constructor() { }
+}
 
 DateTimeWidgets.prototype = {
     removeInputTextNode: function($input) {
@@ -86,8 +88,8 @@ DateTimeWidgets.prototype = {
             });
         });
 
-        var old_goToToday = $.datepicker._gotoToday;
-        $.datepicker._gotoToday = function(id) {
+        var old_goToToday = datepicker._gotoToday;
+        datepicker._gotoToday = function(id) {
             old_goToToday.call(this,id);
             this._selectDate(id);
         };
