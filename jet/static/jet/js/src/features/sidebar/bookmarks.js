@@ -1,13 +1,7 @@
 import $, { ajax } from 'jquery';
 import t from '../../utils/translate';
+import alertify from 'alertifyjs';
 
-import 'jquery-ui/ui/core';
-import 'jquery-ui/ui/widget';
-import 'jquery-ui/ui/mouse';
-import 'jquery-ui/ui/draggable';
-import 'jquery-ui/ui/resizable';
-import 'jquery-ui/ui/button';
-import 'jquery-ui/ui/dialog';
 
 class SideBarBookmarks {
     constructor($sidebar) {
@@ -61,10 +55,10 @@ SideBarBookmarks.prototype = {
     },
     initBookmarksAdding: function($sidebar) {
         var self = this;
-        var $form = $sidebar.find('#bookmarks-add-form');
+        var $dialog = $sidebar.find('#bookmarks-add-dialog');
+        var $form = $dialog.find('form');
         var $titleInput = $form.find('input[name="title"]');
         var $urlInput = $form.find('input[name="url"]');
-        var $dialog = $sidebar.find('#bookmarks-add-dialog');
         var $container = $sidebar.find('.bookmarks-list');
 
         $sidebar.find('.bookmarks-add').on('click', function(e) {
@@ -74,25 +68,17 @@ SideBarBookmarks.prototype = {
             var defaultTitle = $link.data('title') ? $link.data('title') : document.title;
             var url = window.location.href;
 
-            $titleInput.val(defaultTitle);
-            $urlInput.val(url);
+            $titleInput.attr('value', defaultTitle);
+            $urlInput.attr('value', url);
 
             var buttons = {};
-
-            buttons[t('Add')] = function() {
+            
+            alertify.confirm($dialog.html()).set('onok', function(closeevent, value) {
+                $titleInput.val($(this.elements.root).find('form input[name=title]').val())
+                $urlInput.val($(this.elements.root).find('form input[name=url]').val())
                 self.addBookmark($form, $container);
-                $(this).dialog('close');
-            };
-
-            buttons[t('Cancel')] = function() {
-                $(this).dialog('close');
-            };
-
-            $dialog.dialog({
-                resizable: false,
-                modal: true,
-                buttons: buttons
-            });
+                alertify.success('Boomark created!');
+            }).set('title',t('Add bookmark')).set({labels:{ok:t('Add'), cancel: t('Cancel')}, transition: 'fade'});;
         });
     },
     initBookmarksRemoving: function($sidebar) {
@@ -111,21 +97,14 @@ SideBarBookmarks.prototype = {
             $idInput.val(bookmarkId);
 
             var buttons = {};
-
-            buttons[t('Delete')] = function() {
-                self.deleteBookmark($form, $item);
-                $(this).dialog('close');
-            };
-
-            buttons[t('Cancel')] = function() {
-                $(this).dialog('close');
-            };
-
-            $dialog.dialog({
-                resizable: false,
-                modal: true,
-                buttons: buttons
-            });
+            
+            alertify.confirm('Delete bookmark', "Are you sure want to delete this bookmark?",
+                function(){
+                    self.deleteBookmark($form, $item);
+                    alertify.error('Boomark deleted!');
+                },
+                function(){
+            }).set({labels:{ok:t('Delete'), cancel: t('Cancel')}, transition: 'fade'});
         });
     },
     initBookmarks: function($sidebar) {

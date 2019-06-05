@@ -1,17 +1,9 @@
 import './../utils/jquery-slidefade';
-
 import $, { ajax, each } from 'jquery';
 import t from '../utils/translate';
+import 'jquery-sortablejs';
+import alertify from 'alertifyjs';
 
-import 'jquery-ui/ui/core';
-import 'jquery-ui/ui/widget';
-import 'jquery-ui/ui/mouse';
-import 'jquery-ui/ui/draggable';
-import 'jquery-ui/ui/droppable';
-import 'jquery-ui/ui/sortable';
-import 'jquery-ui/ui/resizable';
-import 'jquery-ui/ui/button';
-import 'jquery-ui/ui/dialog';
 
 class Dashboard {
     constructor($dashboard) {
@@ -54,7 +46,6 @@ Dashboard.prototype = {
         });
 
         $dashboard.find('.reset-dashboard-link').on('click', function(e) {
-            var buttons = {};
             var resetDashboard = function () {
                 var $form = $dashboard.find('#reset-dashboard-form');
 
@@ -72,21 +63,14 @@ Dashboard.prototype = {
                     }
                 });
             };
-
-            buttons[t('Yes')] = function() {
-                resetDashboard();
-                $(this).dialog('close');
-            };
-
-            buttons[t('Cancel')] = function() {
-                $(this).dialog('close');
-            };
-
-            $dashboard.find('#reset-dashboard-dialog').dialog({
-                resizable: false,
-                modal: true,
-                buttons: buttons
-            });
+            
+            alertify.confirm('Reset widgets', "Are you sure want to reset widgets?",
+                function(){
+                    resetDashboard();
+                    alertify.error('Dashboard reset done!');
+                },
+                function(){
+            }).set({labels:{ok:t('Yes'), cancel: t('Cancel')}, transition: 'fade'});
 
             e.preventDefault();
         });
@@ -124,20 +108,16 @@ Dashboard.prototype = {
     initModulesDragAndDrop: function($dashboard) {
         var self = this;
 
-        $dashboard.find('.dashboard-column').droppable({
-            activeClass: 'active',
-            hoverClass: 'hovered',
-            tolerance: 'pointer',
-            accept: '.dashboard-item'
-        }).sortable({
-            items: '.dashboard-item.draggable',
+        $dashboard.find('.dashboard-column').sortable({
+            group: 'dashboard',
             handle: '.dashboard-item-header',
-            tolerance: 'pointer',
-            connectWith: '.dashboard-column',
-            cursor: 'move',
-            placeholder: 'dashboard-item placeholder',
-            forcePlaceholderSize: true,
-            update: function (event, ui) {
+            invertSwap: true,
+            draggable: '.dashboard-item.draggable',
+            chosenClass: 'active',
+            ghostClass: 'hovered',
+            dragClass: 'active',
+            dragoverBubble: true,
+            onChange: function (_event) {
                 self.updateDashboardModules($dashboard);
             }
         });
@@ -187,8 +167,6 @@ Dashboard.prototype = {
             $link.on('click', function (e) {
                 e.preventDefault();
 
-                var buttons = {};
-
                 var deleteModule = function () {
                     $item.fadeOut(200, 'swing', function () {
                         $form.find('[name="id"]').val(moduleId);
@@ -202,20 +180,14 @@ Dashboard.prototype = {
                     });
                 };
 
-                buttons[t('Delete')] = function () {
-                    deleteModule();
-                    $(this).dialog('close');
-                };
+                alertify.confirm('Delete widget', "Are you sure want to delete this widget?",
+                    function(){
+                        deleteModule();
+                        alertify.error('Module deleted!');
+                    },
+                    function(){
+                }).set({labels:{ok:t('Delete'), cancel: t('Cancel')}, transition: 'fade'});
 
-                buttons[t('Cancel')] = function () {
-                    $(this).dialog('close');
-                };
-
-                $dashboard.find('#module-remove-dialog').dialog({
-                    resizable: false,
-                    modal: true,
-                    buttons: buttons
-                });
             });
         });
     },

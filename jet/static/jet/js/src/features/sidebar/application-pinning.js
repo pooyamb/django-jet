@@ -2,13 +2,6 @@ import './../../utils/jquery-slidefade';
 
 import $, { ajax } from 'jquery';
 
-import 'jquery-ui/ui/core';
-import 'jquery-ui/ui/widget';
-import 'jquery-ui/ui/mouse';
-import 'jquery-ui/ui/draggable';
-import 'jquery-ui/ui/resizable';
-import 'jquery-ui/ui/button';
-import 'jquery-ui/ui/dialog';
 
 class SideBarApplicationPinning {
     constructor($sidebar) {

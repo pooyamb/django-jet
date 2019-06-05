@@ -150,7 +150,7 @@ RelatedPopups.prototype = {
                 $popup.remove();
                 $popups.eq($popups.length - 2).show();
             }
-        })(previousWindow ? previousWindow.jet.jQuery : $);
+        })($);
     },
     findPopupResponse: function() {
         var self = this;
