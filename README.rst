@@ -28,10 +28,15 @@ Features(This fork)
 
 TODO
 =====
+High priority
 * Tests are broken
 * Needs new tests(main repo needs them too!)
 * Documentations are obselete right now
-* Some bugs here and there
+* Fixing some bugs here and there
+Low priority
+* Add dark themes
+* Abblity to use a dark and light theme at the same time(with a switch)
+* Support RTL and other date formats, or maybe just themes for the existing packages
 
 Introduction
 ============
