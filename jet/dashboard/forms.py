@@ -9,7 +9,6 @@ from jet.utils import user_is_authenticated
 class UpdateDashboardModulesForm(forms.Form):
     app_label = forms.CharField(required=False)
     modules = forms.CharField()
-    modules_objects = []
 
     def __init__(self, request, *args, **kwargs):
         self.request = request
@@ -23,7 +22,7 @@ class UpdateDashboardModulesForm(forms.Form):
 
         try:
             modules = json.loads(data['modules'])
-
+            data['modules_objects'] = []
             for module in modules:
                 db_module = UserDashboardModule.objects.get(
                     user=self.request.user.pk,
@@ -38,14 +37,14 @@ class UpdateDashboardModulesForm(forms.Form):
                     db_module.column = column
                     db_module.order = order
 
-                    self.modules_objects.append(db_module)
+                data['modules_objects'].append(db_module)
         except Exception:
             raise ValidationError('error')
 
         return data
 
     def save(self):
-        for module in self.modules_objects:
+        for module in self.cleaned_data['modules_objects']:
             module.save()
 
 
