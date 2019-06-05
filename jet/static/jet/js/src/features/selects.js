@@ -1,14 +1,17 @@
-import 'select2';
-
-import $, { fn } from 'jquery';
+import $, {
+    fn
+} from 'jquery';
+import select2 from 'select2';
 import t from '../utils/translate';
 
+select2($);
+
 class Select2 {
-    constructor() { }
+    constructor() {}
 }
 
 Select2.prototype = {
-    updateAttachBody: function(AttachBody) {
+    updateAttachBody: function (AttachBody) {
         AttachBody.prototype._positionDropdown = function () {
             var $window = $(window);
 
@@ -100,11 +103,11 @@ Select2.prototype = {
             return $container;
         };
     },
-    updateDropdownAdapter: function(DropdownAdapter) {
+    updateDropdownAdapter: function (DropdownAdapter) {
         DropdownAdapter.prototype.render = function () {
             var buttons = '';
 
-            if (this.options.get('multiple')) {
+            if (this.options.get('multiple') && !this.options.get('ajax')) {
                 buttons =
                     '<div class="select2-buttons">' +
                     '<a href="#" class="select2-buttons-button select2-buttons-button-select-all">' +
@@ -127,18 +130,16 @@ Select2.prototype = {
 
             $dropdown.find('.select2-buttons-button-select-all').on('click', function (e) {
                 e.preventDefault();
-                var selected = [];
-                $element.find('option').each(function () {
-                    selected.push($(this).val());
-                });
-                $element.select2('val', selected);
+                $element.find('option').prop("selected", true);
                 $element.select2('close');
+                $element.trigger('change');
             });
 
             $dropdown.find('.select2-buttons-button-deselect-all').on('click', function (e) {
                 e.preventDefault();
-                $element.select2('val', '');
+                $element.find('option').prop("selected", false);
                 $element.select2('close');
+                $element.trigger('change');
             });
 
             $dropdown.attr('dir', this.options.get('dir'));
@@ -146,19 +147,25 @@ Select2.prototype = {
             return $dropdown;
         };
     },
-    initSelect: function($select, DropdownAdapter) {
-        var settings = {
-            theme: 'jet',
-            dropdownAdapter: DropdownAdapter,
-            width: 'auto'
-        };
-
+    initSelect: function ($select, DropdownAdapter = null) {
+        if (DropdownAdapter) {
+            var settings = {
+                theme: 'jet',
+                dropdownAdapter: DropdownAdapter,
+                width: 'auto'
+            };
+        } else {
+            var settings = {
+                theme: 'jet',
+                width: 'auto'
+            };
+        }
         if ($select.hasClass('ajax')) {
             var contentTypeId = $select.data('content-type-id');
             var appLabel = $select.data('app-label');
             var model = $select.data('model');
             var objectId = $select.data('object-id');
-            var pageSize = 100;
+            var pageSize = 20;
 
             settings['ajax'] = {
                 dataType: 'json',
@@ -182,22 +189,18 @@ Select2.prototype = {
                     var more = (params.page * pageSize) < data.total;
 
                     return {
-                      results: data.items,
-                      pagination: {
-                        more: more
-                      }
+                        results: data.items,
+                        pagination: {
+                            more: more
+                        }
                     };
                 }
             };
         }
 
-        $select.on('change', function(e) {
-            django.jQuery($select.get(0)).trigger(e);
-        });
-
         $select.select2(settings);
     },
-    initSelect2: function() {
+    initSelect2: function () {
         var self = this;
         var AttachBody = fn.select2.amd.require('select2/dropdown/attachBody');
         var DropdownAdapter = fn.select2.amd.require('select2/dropdown');
@@ -214,23 +217,23 @@ Select2.prototype = {
         DropdownAdapter = Utils.Decorate(DropdownAdapter, MinimumResultsForSearch);
         DropdownAdapter = Utils.Decorate(DropdownAdapter, closeOnSelect);
 
-        $(document).on('select:init', 'select', function() {
+        $(document).on('select:init', 'select', function () {
             var $select = $(this);
+            $select.removeAttr("data-theme");
 
             if ($select.parents('.empty-form').length > 0) {
                 return;
             }
-
             self.initSelect($select, DropdownAdapter);
         });
 
         $('select').trigger('select:init');
 
-        $('.inline-group').on('inline-group-row:added', function(e, $inlineItem) {
+        $('.inline-group').on('inline-group-row:added', function (e, $inlineItem) {
             $inlineItem.find('select').trigger('select:init');
         });
     },
-    run: function() {
+    run: function () {
         try {
             this.initSelect2();
         } catch (e) {
@@ -239,6 +242,6 @@ Select2.prototype = {
     }
 };
 
-$(document).ready(function() {
+$(document).ready(function () {
     new Select2().run();
 });
